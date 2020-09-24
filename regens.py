@@ -39,13 +39,23 @@ parser.add_argument('--test_functionality', nargs = "?", type = str, action = "s
 args = parser.parse_args()
 test_functionality = args.test_functionality
 #imports functions to automatically test various aspects of the code if specified:
-if test_functionality == "yes":
+if test_functionality == "test_correctness":
     from regens_testers import test_drawn_breakpoints
     from regens_testers import test_breakpoint_SNP_mapping
     from regens_testers import test_simulated_individuals
+if test_functionality == "test_units":
+    from regens_testers import unit_tester
+    np.random.seed(0)
 
-#checks the input plink filename prefix
-input_plink_filename_prefix = args.input_plink_filename_prefix
+#checks the input plink filename prefix and uses the "ACB" prefix as a default if unit testing
+if test_functionality == "test_units":
+    if not (os.path.isfile("input_files/ACB.bed") and os.path.isfile("input_files/ACB.bim") and os.path.isfile("input_files/ACB.fam")):
+        print("\nThis program must use input_files/ACB.bed, input_files/ACB.bim and input_files/ACB.fam as input files for unit testing\n")
+        exit()
+    input_plink_filename_prefix = "input_files/ACB"
+    print("\nUsing input_files/ACB.bed, input_files/ACB.bim and input_files/ACB.fam as input files for unit testing\n")
+else:
+    input_plink_filename_prefix = args.input_plink_filename_prefix
 bim_file_path = input_plink_filename_prefix + ".bim"
 if os.path.isfile(input_plink_filename_prefix + ".bim") and os.path.isfile(input_plink_filename_prefix + ".bed") and os.path.isfile(input_plink_filename_prefix + ".fam"):
     bim_file = pd.read_csv(bim_file_path, delim_whitespace = True, header = None)
@@ -102,7 +112,11 @@ if phenotype == "binary":
         exit()
 
 # checks path information related to the recombination rate info file
-pop_code = args.population_code
+if test_functionality == "test_units":
+    print("\nUsing population code ACB for unit testing\n")
+    pop_code = "ACB"
+else:
+    pop_code = args.population_code
 hg_version = args.human_genome_version
 rcmb_path_prefix = args.recombination_file_path_prefix
 hg_pop_codes = ["ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI"]
@@ -135,8 +149,11 @@ else:
 # This downloads dataframes containing genomic intervals and recombination rates (in CentiMorgans/Megabase). There is one dataframe per chromosome. 
 rcmb_rate_info_paths = [rcmb_rate_info_path_prefix + str(chr) + '.txt.gz' for chr in chromosomes]
 rcmb_rate_info_chr = [pd.read_csv(path, delim_whitespace = True, header = 0, compression = "gzip") for path in rcmb_rate_info_paths]
-rcmb_rate_info_chr = [reduce_recomb_rate_info(rcmb_rate_info_chr[i], bim_SNP_pos_chr[i]) for i in range(len(chromosomes))]
-rcmb_rate_intervals_chr = [((rcmb_rate_info_chr[i])["Position(bp)"]).to_numpy().reshape(-1) for i in range(len(chromosomes))]
+if test_functionality == "test_units":
+    rcmb_rate_info_chr = [reduce_recomb_rate_info(rcmb_rate_info_chr[i], bim_SNP_pos_chr[i], test_functionality) for i in [0]]
+else:
+    rcmb_rate_info_chr = [reduce_recomb_rate_info(rcmb_rate_info_chr[i], bim_SNP_pos_chr[i], test_functionality) for i in range(len(chromosomes))]
+rcmb_rate_intervals_chr = [((rcmb_rate_info_chr[i])["Position(bp)"]).to_numpy().reshape(-1) for i in range(len(rcmb_rate_info_chr))]
 
 # checks that percent noise value makes sense
 noise = args.noise
@@ -168,6 +185,8 @@ if not (os.path.isfile(SNP_phenotype_map_path) or (SNP_phenotype_map_path == "st
     exit()
 
 # runs the main algorithm. 
+if test_functionality == "test_units":
+    chromosomes = chromosomes[0:1]
 for i in range(len(chromosomes)):
 
     print("simulating chromosome " + str(chromosomes[i]))
@@ -176,7 +195,8 @@ for i in range(len(chromosomes)):
     samples = get_samples_fast(simulation_sample_size,
                                input_sample_column_bounds, 
                                input_plink_filename_prefix, 
-                               num_breakpoints)
+                               num_breakpoints,
+                               test_functionality)
 
     breakpoints = draw_breakpoints(rcmb_rate_info_chr[i], 
                                    bim_SNP_pos_chr[i], 
@@ -196,9 +216,10 @@ for i in range(len(chromosomes)):
                    output_plink_filename_prefix + "_chr" + str(chromosomes[i]) + ".bed",
                    bim_SNP_complete_pos_chr[i],
                    bim_SNP_nucleotides_chr[i],
-                   population_ID)
+                   population_ID,
+                   test_functionality)
 
-if phenotype == "binary" or phenotype == "continuous":
+if (phenotype == "binary" or phenotype == "continuous") and test_functionality != "test_units":
 
     sample_size = len(simulated_individuals)
     output_file_names = [output_plink_filename_prefix + "_chr" + str(chromosomes[i]) + ".bed" for i in range(len(chromosomes))]
