@@ -1,8 +1,67 @@
 import numpy as np
 import pandas as pd
+from bed_reader import open_bed
 import pdb
 from matplotlib import pyplot as plt
 pd.options.mode.chained_assignment = None
+
+def unit_tester(current_output, known_output_file_name, header_type):
+
+    """
+    
+    Purpose
+    -------
+    Given input with known output, theis function compare's each function's current output against the correct output. 
+
+    Parameters
+    ----------
+    current_output: a functions actual output during unit testing.
+    known_output_file_name: name of the file containing the output that the function being tested is expected to have.
+    header_type: either 0 (if there is a header) or None (if there is no header). Passed directly to Pandas' read_csv function.
+
+    Returns
+    -------
+    It returns nothing. It prints whether or not the function passed it's unit test. 
+    
+    """
+    if  known_output_file_name[-4:] == ".bed":
+        bed_reader = open_bed("unit_testing_files/correct_write_bed_file_output.bed", count_A1 = True, num_threads = 1)
+        correct_output = bed_reader.read(dtype = 'int8')
+    elif known_output_file_name[-4:] == ".bim" or known_output_file_name[-4:] == ".fam":
+        correct_output = pd.read_csv("unit_testing_files/" + known_output_file_name, delim_whitespace = True, header = None,  dtype = str).to_numpy().astype("str")
+    else:
+        correct_output = pd.read_csv("unit_testing_files/" + known_output_file_name, delimiter = "\t", header = header_type).to_numpy()
+    function_instance = 0
+    if len(correct_output.shape) == 2:
+        if (correct_output.shape)[1] == 1:
+            correct_output = correct_output.reshape(-1)
+    if "1" in known_output_file_name or "2" in known_output_file_name:
+        function_name = known_output_file_name[8:-12]
+        function_instance = known_output_file_name[-5]
+    else:
+        function_name = known_output_file_name[8:-11]
+    if isinstance(current_output, pd.DataFrame):
+        current_output = current_output.to_numpy()
+    if isinstance(current_output, list):
+        current_output = np.array(current_output)
+    # Importing the values sometimes creates a small ammount of machine error.
+    if known_output_file_name[-4:] == ".bim" or known_output_file_name[-4:] == ".fam":
+        if np.any(correct_output != current_output):
+            print("The " + function_name + " function's " + known_output_file_name[-4:] + " file output failed its unit test.\n")
+        else:
+            print("The " + function_name + " function's " + known_output_file_name[-4:] + " file output passed its unit test.\n")
+    else:
+        if np.any(np.round(correct_output, 12) != np.round(current_output, 12)):
+            if function_instance == "1" or function_instance == "2":
+                print("Instance " + function_instance + " of the " + function_name + " function failed its unit test.\n")
+            else:  
+                print("The " + function_name + " function failed its unit test.\n")
+        else:
+            if function_instance == "1" or function_instance == "2":
+                print("Instance " + function_instance + " of the " + function_name + " function passed its unit test.\n")
+            else:  
+                print("The " + function_name + " function passed its unit test.\n")
+
 
 def test_drawn_breakpoints(breakpoints, probabilities, chromosome_number, output_plink_filename_prefix):
 
