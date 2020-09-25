@@ -8,14 +8,15 @@ from scipy.optimize import root
 from copy import deepcopy as COPY
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import LinearRegression
+from regens_testers import unit_tester
 pd.options.mode.chained_assignment = None
 
 # TODO: double check that the modified recombination_rate_to_probabilities function works as expected. 
 # TODO: double check why you don't subtract 1 from the first "SNP_positions_to_rcmb_intervals" use but you do from the second. 
-# IMPORTANT DEFINITION: a breakpoint refers to the genomic position of the boundary between segments 
+# IMPORTANT DEFINITION: a breakpoint refers to the genomic position of the boundary between segments. 
 # from two sampled whole genomes. It does not refer to the programming definition of breakpoint.  
 
-def reduce_recomb_rate_info(rcmb_rate_info, bim_SNP_positions):
+def reduce_recomb_rate_info(rcmb_rate_info, bim_SNP_positions, test_functionality):
 
     """
     
@@ -45,15 +46,18 @@ def reduce_recomb_rate_info(rcmb_rate_info, bim_SNP_positions):
     #                The only row still needed is the closest boundary to the LEFT of the first SNP. This is aquired by
     #                implementing "occupied_rcmb_intervals[np.min(np.where(occupied_rcmb_intervals == True)) - 1] = True".
 
-    SNP_pos_rcmb_interval_map = SNP_positions_to_rcmb_intervals(rcmb_rate_intervals, COPY(bim_SNP_positions))
+    SNP_pos_rcmb_interval_map = SNP_positions_to_rcmb_intervals(rcmb_rate_intervals, COPY(bim_SNP_positions), test_functionality, context = 1)
     all_rcmb_intervals = np.arange(len(rcmb_rate_intervals))
     occupied_rcmb_intervals = np.isin(all_rcmb_intervals, SNP_pos_rcmb_interval_map)
     occupied_rcmb_intervals[np.min(np.where(occupied_rcmb_intervals == True)) - 1] = True
     reduced_rcmb_rate_info = rcmb_rate_info[occupied_rcmb_intervals]
 
+    #reduced_rcmb_rate_info.to_csv("correct_reduce_recomb_rate_info_output.txt", sep = "\t", header = True, index = False)
+    if test_functionality == "test_units":
+        unit_tester(reduced_rcmb_rate_info, "correct_reduce_recomb_rate_info_output.txt", 0)
     return(reduced_rcmb_rate_info)
 
-def SNP_positions_to_rcmb_intervals(rcmb_interval_boundaries, bim_SNP_positions):
+def SNP_positions_to_rcmb_intervals(rcmb_interval_boundaries, bim_SNP_positions, test_functionality, context):
 
     """
     
@@ -95,9 +99,13 @@ def SNP_positions_to_rcmb_intervals(rcmb_interval_boundaries, bim_SNP_positions)
                 SNP_rcmb_interval_indices[i] = prev_start_pos + k
                 prev_start_pos += k
                 break
+    
+    if test_functionality == "test_units":
+        unit_tester(SNP_rcmb_interval_indices, "correct_SNP_positions_to_rcmb_intervals_output" + str(context) + ".txt", None)
+
     return(SNP_rcmb_interval_indices)
 
-def choice_with_periodic_replacement(length, width, probabilities):
+def choice_with_periodic_replacement(length, width, probabilities, test_functionality):
 
     """
     
@@ -121,7 +129,7 @@ def choice_with_periodic_replacement(length, width, probabilities):
     an NxB numpy array containing N sets of B recombination interval indices. All indices 
     have 1 subtracted from them because a [0] element is appended onto the beginning of
     the cumulative probability distribution for technical convenience, which increases 
-    all of the indices by one higher than they should be throughout the rest of the code.   
+    all of the indices by one higher than rest of the code expects them to be.   
 
     """
 
@@ -135,9 +143,13 @@ def choice_with_periodic_replacement(length, width, probabilities):
             for j, pos in enumerate(samples[i]):
                 cumulative_probabilities[j][pos:] -= cumulative_probabilities[j][pos] - cumulative_probabilities[j][pos - 1]
             max_cumulative_vals = cumulative_probabilities[:, -1]
+    
+    if test_functionality == "test_units":
+        unit_tester(samples.T - 1, "correct_choice_with_periodic_replacement_output.txt", None)
+
     return(samples.T - 1)
      
-def centimorgans_to_probabilities(recomb_rate_info):
+def centimorgans_to_probabilities(recomb_rate_info, test_functionality):
 
     """
     
@@ -163,6 +175,10 @@ def centimorgans_to_probabilities(recomb_rate_info):
     expected_Ri = (1 - np.exp(-rcmb_rates/50))/2
     expected_R = np.sum(expected_Ri)
     p_Ri_true_given_R_one = expected_Ri/expected_R
+
+    if test_functionality == "test_units":
+        unit_tester(p_Ri_true_given_R_one, "correct_centimorgans_to_probabilities_output.txt", None)
+
     return(p_Ri_true_given_R_one)
 
 def draw_breakpoints(rcmb_rate_info, bim_SNP_positions, num_breakpoints, simulation_sample_size, test_functionality, chromosome_number, output_plink_filename_prefix):
@@ -192,18 +208,19 @@ def draw_breakpoints(rcmb_rate_info, bim_SNP_positions, num_breakpoints, simulat
 
     """ 
 
-    if test_functionality == "yes":
+    if test_functionality == "test_correctness":
         from regens_testers import test_drawn_breakpoints
         from regens_testers import test_breakpoint_SNP_mapping
       
     SNP_count = len(bim_SNP_positions)
-    probabilities = centimorgans_to_probabilities(rcmb_rate_info)
+    probabilities = centimorgans_to_probabilities(rcmb_rate_info, test_functionality)
     rcmb_rate_intervals = rcmb_rate_info["Position(bp)"].to_numpy()
     breakpoints = choice_with_periodic_replacement(simulation_sample_size,  
                                                    num_breakpoints, 
-                                                   probabilities)
+                                                   probabilities,
+                                                   test_functionality)
 
-    if test_functionality == "yes":
+    if test_functionality == "test_correctness":
         test_drawn_breakpoints(breakpoints, probabilities, chromosome_number, output_plink_filename_prefix)
         old_breakpoints = COPY(breakpoints)
 
@@ -212,7 +229,7 @@ def draw_breakpoints(rcmb_rate_info, bim_SNP_positions, num_breakpoints, simulat
     #                This is because all SNPs up to the SNP immediately to the left of the ith breakpoint comprise the ith 
     #                segment, noting that the (B+1)th includes all SNPs after the Bth breakpoint (there are B breakpoints). 
 
-    SNP_pos_rcmb_interval_map = SNP_positions_to_rcmb_intervals(rcmb_rate_intervals, COPY(bim_SNP_positions)) - 1
+    SNP_pos_rcmb_interval_map = SNP_positions_to_rcmb_intervals(rcmb_rate_intervals, COPY(bim_SNP_positions), test_functionality, context = 2) - 1
    
     rcmb_interval_SNP_pos_map = {}
     for rcmb_interval in np.unique(SNP_pos_rcmb_interval_map):
@@ -227,12 +244,14 @@ def draw_breakpoints(rcmb_rate_info, bim_SNP_positions, num_breakpoints, simulat
             else:
                 breakpoints[jj][k] = SNP_indices[int(len(SNP_indices)*np.random.rand() - 0.5)]
 
-    if test_functionality == "yes":
+    if test_functionality == "test_correctness":
         test_breakpoint_SNP_mapping(old_breakpoints, rcmb_rate_intervals, breakpoints, bim_SNP_positions)
+    if test_functionality == "test_units":
+        unit_tester(breakpoints, "correct_draw_breakpoints_output.txt", None)
 
     return(breakpoints)
 
-def get_samples_fast(simulation_sample_size, bed_col_bounds, plink_file_name_prefix, num_breakpoints):
+def get_samples_fast(simulation_sample_size, bed_col_bounds, plink_file_name_prefix, num_breakpoints, test_functionality):
 
     """
 
@@ -266,7 +285,18 @@ def get_samples_fast(simulation_sample_size, bed_col_bounds, plink_file_name_pre
     bed_file_samples_dimensions = (int(len(bed_row_indices)/(num_breakpoints + 1)),  
                                    num_breakpoints + 1, 
                                    len(bed_file_samples[0]))
-    return(bed_file_samples.reshape(bed_file_samples_dimensions))
+    reshaped_output = bed_file_samples.reshape(bed_file_samples_dimensions)
+
+    if test_functionality == "test_units":
+        # gives 3 different counts of how many times each minor allele is drawn. They're small and vanishingly unlikely to all be made correctly by chance. 
+        SNP_minor_allele_counts = np.sum(reshaped_output, axis = (0, 1))
+        simulated_individual_minor_allele_counts = np.sum(reshaped_output, axis = (1, 2))
+        breakpoint_interval_minor_allele_counts = np.sum(reshaped_output, axis = (0, 2))
+        unit_tester(SNP_minor_allele_counts, "correct_get_samples_fast_SNP_minor_allele_counts_output.txt", None)
+        unit_tester(simulated_individual_minor_allele_counts, "correct_get_samples_fast_simulated_individual_minor_allele_counts_output.txt", None)
+        unit_tester(breakpoint_interval_minor_allele_counts, "correct_get_samples_fast_breakpoint_interval_minor_allele_counts_output.txt", None)
+
+    return(reshaped_output)
 
 def breakpoints_to_simulated_individuals(breakpoints, SNP_count, sampled_individuals, test_functionality):
 
@@ -301,13 +331,13 @@ def breakpoints_to_simulated_individuals(breakpoints, SNP_count, sampled_individ
             startpoint = breakpoint
     simulated_individuals = sampled_individuals[breakpoints_masks].reshape(-1, SNP_count)
 
-    if test_functionality == "yes":
+    if test_functionality == "test_correctness":
         from regens_testers import test_simulated_individuals
         test_simulated_individuals(breakpoints, sampled_individuals, simulated_individuals)
 
     return(simulated_individuals)
 
-def write_bed_file(simulated_individuals, bim_SNP_names, output_name, bim_SNP_complete_pos, bim_SNP_nucleotides, population_ID):
+def write_bed_file(simulated_individuals, bim_SNP_names, output_name, bim_SNP_complete_pos, bim_SNP_nucleotides, population_ID, test_functionality):
 
     """
 
@@ -349,7 +379,18 @@ def write_bed_file(simulated_individuals, bim_SNP_names, output_name, bim_SNP_co
                 "bp_position": bim_SNP_complete_pos.T[2],
                 "allele_1": bim_SNP_nucleotides.T[0],
                 "allele_2": bim_SNP_nucleotides.T[1]}
+
     to_bed(output_name, simulated_individuals, properties = metadata, count_A1 = True)
+
+    if test_functionality == "test_units":
+        bed_reader = open_bed(output_name, count_A1 = True, num_threads = 1)
+        output_bed_file = bed_reader.read(dtype = 'int8')
+        output_bim_file = pd.read_csv(output_name[:-4] + ".bim", delimiter = "\t", header = None, dtype = str).to_numpy().astype("str")
+        output_fam_file = pd.read_csv(output_name[:-4] + ".fam", delimiter = " ", header = None, dtype = str).to_numpy().astype("str")
+        unit_tester(output_bed_file, "correct_write_bed_file_output.bed", None)
+        unit_tester(output_bim_file, "correct_write_bed_file_output.bim", None)
+        unit_tester(output_fam_file, "correct_write_bed_file_output.fam", None)
+
         
 def get_feature_SNPs(feature_SNP_IDs, cumulative_SNP_counts, output_file_names, sample_size, bim_SNP_names):
 
@@ -380,6 +421,7 @@ def get_feature_SNPs(feature_SNP_IDs, cumulative_SNP_counts, output_file_names, 
         output_file_reader = open_bed(output_file_names[output_file_index], count_A1 = True, num_threads = 1)
         adjusted_SNP_index = index - cumulative_SNP_counts[output_file_index]
         feature_SNPs[:, [i]] += output_file_reader.read(index = adjusted_SNP_index, dtype = 'float32')
+
     return(feature_SNPs)
 
 def simulate_phenotypes(output_file_names, causal_SNP_IDs_path, cumulative_SNP_counts, 
