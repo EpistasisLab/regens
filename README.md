@@ -1,4 +1,4 @@
-## About REGENS
+## About REGENS :dna:
 
 REGENS (REcombinatory Genome ENumeration of Subpopulations) is an open source Python package that simulates whole genomes from real genomic segments. 
 REGENS recombining these segments in a way that preserves their linkage disequilibrium (LD) such that the simulated genomes closely resemble the realistic input population \cite{source:1}
@@ -210,6 +210,11 @@ regular
 regular	recessive
 homozygous_only regular	regular
 ```
+
+## Contributing
+If you find any bugs or have any suggestions/questions, please feel free to [post an issue](https://github.com/EpistasisLab/regens/issues/new)! 
+Please refer to our [contribution guide](CONTRIBUTING.md) for more details.
+Thanks for your support!
 
 ## License
 MIT + file LICENSE
