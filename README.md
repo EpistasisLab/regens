@@ -4,7 +4,7 @@ REGENS (REcombinatory Genome ENumeration of Subpopulations) is an open source Py
 REGENS recombining these segments in a way that preserves their linkage disequilibrium (LD) such that the simulated genomes closely resemble the realistic input population \cite{source:1}
 Given a biological trait (phenotype), REGENS can also simulate mono-allelic and epistatic single nucleotide variant (SNV) effects of any order without perturbing the simulated LD pattern.
 
-## Input
+## Input :inbox_tray:
 REGENS requires the following inputs:
 - real genotype data formatted as a standard (bed, bim, fam) plink _fileset_, ideally contains a minimum of 80 unrelated individuals
 - a folder with one dataframe per chromosome containing genomic position intervals and recombination rates [formatted as such](https://raw.githubusercontent.com/EpistasisLab/REGENS/master/hg19/ACB/ACB_recombination_map_hapmap_format_hg19_chr_1.txt?token=AKJ677MJLXQBVU243VENRWS7NY4XC)
@@ -13,7 +13,7 @@ REGENS requires the following inputs:
 
 **REGENS's simulated genomes are comprised entirely of concatenated segments from the input dataset's real genomes. If your input genomes are not available for public use, then you may not be allowed to publicly release the simulated dataset. Please consult the institutions that provide you access to your input genotype dataset for more information about this matter.**
 
-## Output
+## Output :outbox_tray:
 Standard output is a standard (bed, bim, fam) plink fileset with the simulated genotype data (and optional phenotype information). 
 If plink is not available to you, please consider [bed-reader](https://pypi.org/project/bed-reader/0.1.1/), which reads (bed, bim, fam) plink filesets into the python environment quickly and efficiently. 
  
@@ -148,8 +148,6 @@ heterozygous_only
 regular
 ```
 
-Note that _R_ indicates `recessive` and _Ho_ indicates `homozygous_only`.
-
 ### Example 3: inclusion of epistatic effects
 
 REGENS models epistasis between an arbitrary number of SNPs as the product of transformed SNP values in an individual.
@@ -210,6 +208,8 @@ regular
 regular	recessive
 homozygous_only regular	regular
 ```
+## Repository structure
+
 
 ## Contributing
 If you find any bugs or have any suggestions/questions, please feel free to [post an issue](https://github.com/EpistasisLab/regens/issues/new)! 
@@ -219,28 +219,24 @@ Thanks for your support!
 ## License
 MIT + file LICENSE
 
-# Technical details
+## Technical details
 
 Each genome that REGENS simulates starts out as an empty template of SNP positions without SNP values, which is divided into empty segments that are demarcated by breakpoints. The probability of drawing any genomic position for a given breakpoint is equal to the probability that this position would demarcate a given real recombination event. Once an empty simulated genome is segmented by breakpoints, the row indices of whole genome bed file rows from a real dataset are duplicated so that 1) there is one real individual for each empty segment and 2) every real individual is selected an equal number of times (minus 1 for each remainder sample if the number of segments is not divisible by the number of individuals). Then, for each empty segment, a whole genome is randomly selected without replacement from the set of genomes that correspond to the duplicated indices, and the empty simulated segment is filled with the the homologous segment from the sampled real genome. These steps are repeated for every empty simulated segment so that all of the empty simulated genomes are filled with real SNP values. This quasirandom selection minimizes maf variation between the simulated and real datasets and also maintains normal population level genetic variability by randomizing segment selection. Even though the randomly selected segments are independent from one-another, the simulated dataset will contain the input dataset's LD pattern because each breakpoint location is selected with the same probability that they would demarcate a given real recombination event (i.e. a real biological concatenation of two independent genomic segment).
 
 The Triadsim algorithm has used this method to simulate LD patterns that are almost indistinguishable from those of the input Dataset. REGENS simulates equally realistic data, and it was measured to be 88 times faster and require 8 times lower peak RAM than Triadsim. REGENS is designed to easily simulate GWAS data from any of the 26 populations in the [1000 genomes project](https://www.cog-genomics.org/plink/2.0/resources), and a filtered subset of these subpopulations' genotype data is provided in the github in corresponding plink filesets. In summary, I kept every biallelic SNP such that every subpopulation contains at least two instances of the minor allele. [Exact thinning methods are here](https://github.com/EpistasisLab/REGENS/blob/master/get_1000_genomes_files.sh). REGENS converts output recombination rate maps from [pyrho](https://github.com/popgenmethods/pyrho) (which correspond to the twenty-six 1000 Genome populations on a one to one basis) into probabilities of drawing each simulated breakpoint at a specific genomic location. It is also possible to simulate GWAS data from a custom plink (bed, bim, bam) fileset or a custom recombination rate map (or both files can be custom). Note that recombination rate maps between populations within a superpopulation (i.e. british and italian) have pearson correlation coefficients of roughly 0.9 [(see figure 2B of the pyrho paper)](https://advances.sciencemag.org/content/advances/5/10/eaaw9206.full.pdf), so if a genotype dataset has no recombination rate map for the exact population, then map for a closely relatrf population should suffice. 
 
-We use 500000 SNPs filtered from the 1000 genomes dataset as an example. 
-REGENS can select the population that matches most closely to the input dataset with the`--population_code` argument. `pyrho` paper's [Figure 2B](https://advances.sciencemag.org/content/advances/5/10/eaaw9206.full.pdf) shows that closely related populations' recombination rates have high pearson correlation coefficients (roughly 0.9), so using a pyrho recombination rate dataframe for a slightly different population's genotype dataset is acceptable.
-
-## Optional input
-- a newline seperated list of rsID sets, where rsIDs within a set are tab seperated and occupy one row.  
-- a newline seperated list of real numbers (beta coefficients). Each row has one beta coefficient that corresponds to the product of genotype values in the same row of (3). 
-- a newline seperated list of 0s and 1s in the same formation as the rsIDs in (3). If A/a are the major/minor alleles, then 0 specifies that (AA = 0, Aa = 1, and aa = 2), while 1 specifies that (AA = 2, Aa = 1, and aa = 0)
-- a newline seperated list of genotype value transformation functions (i.e. is the effect dominant or recessive) in the same formation as the rsIDs in (3).
-
 ## REGENS simulates nearly flawless GWAS data
 
 The Triadsim algorithm simulates LD patterns that are almost indistinguishable from those of the input Dataset. REGENS uses triadsim's method of recombining genomic segments to simulate equally realistic data, and we measured it to be 88 times faster and require 8 times lower peak RAM than Triadsim. The following three figures show that REGENS nearly perfectly replicates the input dataset's LD pattern. 
 
-1. For the 1000 genome project's ACB population, this figure compares (right) every SNP's real maf against it's simulated maf and (left) every SNP pair's real genotype pearson correlation coefficient against its simulated genotype pearson correlation coefficient for SNP pairs less than  200 kilobases apart.<img src="https://github.com/EpistasisLab/REGENS/blob/master/images/real_vs_sim_r_val_maf_comparison_ACB.png" width=1000/>
+1. For the 1000 genome project's ACB population, this figure compares (right) every SNP's real maf against it's simulated maf and (left) every SNP pair's real genotype pearson correlation coefficient against its simulated genotype pearson correlation coefficient for SNP pairs less than  200 kilobases apart.
 
-2. For the 1000 genome project's ACB and GBR populations, these figures plot SNP pairs' absolute r values against their distance apart (up to 200 kilobases apart) for both real and simulated populations. More specifically, SNP pairs were sorted by their distance apart and seperated into 4000 adjacent bins, so each datapoint plots one bin's average absolute r value against its average position. Notice that the GBR population has an average |r| value above 0.3 at the distance of 25000, while the ACB population has an average |r| value below 0.3 at the same distance. REGENS precisely reconstructs the trend between LD and distance. <img src="https://github.com/EpistasisLab/REGENS/blob/master/images/real_vs_sim_r_vs_distance_profile_comparison_ACB.png" width=1000/>
-<img src="https://github.com/EpistasisLab/REGENS/blob/master/images/real_vs_sim_r_vs_distance_profile_comparison_GBR.png" width=1000/>
+![Real and simulated R value vs. MAF](images/r_maf_ACB.png)
 
-3. These figures compare TSNE plots of the first 10 principal components for real and simulated 1000 genomes subpopulations. Principal components were computed from the 1000 genomes population datasets, and the loadings were used to project the simulated individuals onto the PC space. These results demonstrate that REGENS replicates the the input data's overall population structure in simulated datasets. Note that CEU samples, despite being considered European by the 1000 Genomes project, are plotted with other Americans because they are from Utah.<img src="https://github.com/EpistasisLab/REGENS/blob/master/images/TSNE1_vs_TSNE2_for_1000_genome_African_subpopulations.png" width=1000/>
+2. For the 1000 genome project's ACB and GBR populations, these figures plot SNP pairs' absolute r values against their distance apart (up to 200 kilobases apart) for both real and simulated populations. More specifically, SNP pairs were sorted by their distance apart and seperated into 4000 adjacent bins, so each datapoint plots one bin's average absolute r value against its average position. Notice that the GBR population has an average |r| value above 0.3 at the distance of 25000, while the ACB population has an average |r| value below 0.3 at the same distance. REGENS precisely reconstructs the trend between LD and distance.
+
+![Real and simulated R value vs. distance_profile](images/r_dist_ACB.png)
+
+3. These figures compare TSNE plots of the first 10 principal components for real and simulated 1000 genomes subpopulations. Principal components were computed from the 1000 genomes population datasets, and the loadings were used to project the simulated individuals onto the PC space. These results demonstrate that REGENS replicates the the input data's overall population structure in simulated datasets. Note that CEU samples, despite being considered European by the 1000 Genomes project, are plotted with other Americans because they are from Utah.
+
+![TSNE1 vs TSNE2 for 1000 genome African subpopulations](images/tsne.png)
