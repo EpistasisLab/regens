@@ -36,16 +36,46 @@ On your command line, change working directory to the `regens` directory.
 
 ## Simulate genotype data
 
-The following command uses `ACB.bed`, `ACB.bim`, and `ACB.fam` to simulate 10000 individuals without phenotypes.
+The following command uses `ACB.bed`, `ACB.bim`, and `ACB.fam` to simulate 10000 individuals without phenotypes. Windows users should replace all "\"  linebreak characters with "^".
 
 ```bash
 python regens.py \
---in input_files/ACB \
---out ACB_simulated \
---simulate_nsamples 10000 \
---simulate_nbreakpoints 4 \
---population_code ACB \
---human_genome_version hg19
+  --in input_files/ACB \
+  --out ACB_simulated \
+  --simulate_nsamples 10000 \
+  --simulate_nbreakpoints 4 \
+  --population_code ACB \
+  --human_genome_version hg19
+```
+
+## Simulate genotype data with custom recombination rate dataframes
+
+The following command uses custom recombination rate files instead of the ones provided in the hg19 and hg38 folders (though it is just a copy of hg19/ACB). NOTE: recombination rates between similar populations (i.e. english and italian) are highly correlated, so customizing your recombination rate files is unlikely to be necessary or helpful for simulating human genotype data. 
+
+```bash
+python regens.py \
+    --in input_files/ACB \
+    --out ACB_simulated \
+    --simulate_nsamples 10000 \
+    --simulate_nbreakpoints 4 \
+    --recombination_file_path_prefix input_files/hg19_ACB_renamed_as_custom/custom_chr_
+```
+
+Importantly, `custom_chr_` includes the entire recombination rate file name up to the number of the chromosome, and that every file suffix must be `.txt.gz`. Note that it is also important for the `.txt.gz` files to actually be gzipped (as opposed to a meaningless `txt.gz` extension). 
+
+Each recombination  rate dataframe must have two tab seperated columns named "Position(bp)" and	"Map(cM)". The i<sup>th</sup> row of "Position(bp)" contains the genomic position of the left boundary for the i<sup>th</sup> genomic interval with a distinct recombination rate. The i<sup>th</sup> row of "Position(bp)" is also the genomic position of the right boundary for the (i-1)<sup>th</sup> genomic interval with a distinct recombination rate. As such, the last row of "Position(bp)" is only a right boundary, and the first row is only a left boundary. Genomic positions must increase monotonically from top to bottom. 
+
+The (i)<sup>th</sup> value of "Map(cM)" is the cumulative recombination rate from the first position to the i<sup>th</sup> position in CentiMorgans. The first value of "Map(cM)" must be 0 because of this fact. It must be the case that the recombination rate of the interval in between any two rows b and a is equal to the Map(cM) value at row b minus the Map(cM) value at row a. These cumulative Map(cM) values must increase monotonically from top to bottom. 
+
+An example of how this must be formatted is below (remember that there must be one per chromosome, and they must all be gzipped):
+
+```bash
+Position(bp)	Map(cM)
+16050114	0.0
+16058757	0.01366
+16071986	0.03912
+16072580	0.04013
+16073197	0.04079
 ```
 
 ## Simulate genotype data with phenotype associations
@@ -72,12 +102,12 @@ A full command for REGENS to simulate genomic data with correlated phenotypes wo
 
 ```bash
 python regens.py \
---in input_files/ACB --out ACB_simulated \
---simulate_nsamples 10000 --simulate_nbreakpoints 4 \
---phenotype continuous --mean_phenotype 5.75 \
---population_code ACB --human_genome_version hg19 \
---causal_SNP_IDs_path input_files/causal_SNP_IDs.txt \
---noise 0.5 --betas_path input_files/betas.txt
+  --in input_files/ACB --out ACB_simulated \
+  --simulate_nsamples 10000 --simulate_nbreakpoints 4 \
+  --phenotype continuous --mean_phenotype 5.75 \
+  --population_code ACB --human_genome_version hg19 \
+  --causal_SNP_IDs_path input_files/causal_SNP_IDs.txt \
+  --noise 0.5 --betas_path input_files/betas.txt
 ```
 
 This command simulates genotype-phenotype correlations according to the following model.
@@ -110,14 +140,14 @@ rs5836360
 
 ```bash
 python regens.py \
---in input_files/ACB --out ACB_simulated \
---simulate_nbreakpoints 4 --simulate_nsamples 10000 \
---phenotype continuous --mean_phenotype 5.75 \
---population_code ACB --human_genome_version hg19 --noise 0.5 \
---causal_SNP_IDs_path input_files/causal_SNP_IDs.txt \
---major_minor_assignments_path input_files/major_minor_assignments.txt \
---SNP_phenotype_map_path input_files/SNP_phenotype_map.txt \
---betas_path input_files/betas.txt
+  --in input_files/ACB --out ACB_simulated \
+  --simulate_nbreakpoints 4 --simulate_nsamples 10000 \
+  --phenotype continuous --mean_phenotype 5.75 \
+  --population_code ACB --human_genome_version hg19 --noise 0.5 \
+  --causal_SNP_IDs_path input_files/causal_SNP_IDs.txt \
+  --major_minor_assignments_path input_files/major_minor_assignments.txt \
+  --SNP_phenotype_map_path input_files/SNP_phenotype_map.txt \
+  --betas_path input_files/betas.txt
 ```
 
 In addition to the notation from the first example, let S<sub>i</sub> = _swap_(s<sub>i</sub>) be the i<sup>th</sup> genotype to influence the value of _y_ such that (AA = 2, Aa = 1, and aa = 0). Also, we recall the definitions for the four nontrivial mapping functions (R, D, He, Ho) defined prior to the first example. The second example models phenotypes as follows:
@@ -152,14 +182,14 @@ REGENS models epistasis between an arbitrary number of SNPs as the product of tr
 
 ```bash
 python regens.py \
---in input_files/ACB --out ACB_simulated \
---simulate_nbreakpoints 4 --simulate_nsamples 10000 \
---phenotype continuous --mean_phenotype 5.75 \
---population_code ACB --human_genome_version hg19 --noise 0.5 \
---causal_SNP_IDs_path input_files/causal_SNP_IDs2.txt \
---major_minor_assignments_path input_files/major_minor_assignments2.txt \
---SNP_phenotype_map_path input_files/SNP_phenotype_map2.txt \
---betas_path input_files/betas.txt
+  --in input_files/ACB --out ACB_simulated \
+  --simulate_nbreakpoints 4 --simulate_nsamples 10000 \
+  --phenotype continuous --mean_phenotype 5.75 \
+  --population_code ACB --human_genome_version hg19 --noise 0.5 \
+  --causal_SNP_IDs_path input_files/causal_SNP_IDs2.txt \
+  --major_minor_assignments_path input_files/major_minor_assignments2.txt \
+  --SNP_phenotype_map_path input_files/SNP_phenotype_map2.txt \
+  --betas_path input_files/betas.txt
 ```
 
 y = 0.5s<sub>1</sub> + 0.5D(s<sub>2</sub>)s<sub>3</sub>+ 0.2Ho(S<sub>4</sub>)s<sub>5</sub>s<sub>5</sub> + B + &epsilon;
@@ -246,10 +276,10 @@ The Triadsim algorithm simulates LD patterns that are almost indistinguishable f
 
 ![Real and simulated R value vs. MAF](images/r_maf_ACB.png)
 
-2. For the 1000 genome project's ACB and GBR populations, these figures plot SNP pairs' absolute r values against their distance apart (up to 200 kilobases apart) for both real and simulated populations. More specifically, SNP pairs were sorted by their distance apart and seperated into 4000 adjacent bins, so each datapoint plots one bin's average absolute r value against its average position. Notice that the GBR population has an average |r| value above 0.3 at the distance of 25000, while the ACB population has an average |r| value below 0.3 at the same distance. REGENS precisely reconstructs the trend between LD and distance.
+2. For the 1000 genome project's ACB population, this figure plots SNP pairs' absolute r values against their distance apart (up to 200 kilobases apart) for both real and simulated populations. More specifically, SNP pairs were sorted by their distance apart and seperated into 4000 adjacent bins, so each datapoint plots one bin's average absolute r value against its average position.
 
 ![Real and simulated R value vs. distance_profile](images/r_dist_ACB.png)
 
-3. These figures compare TSNE plots of the first 10 principal components for real and simulated 1000 genomes subpopulations. Principal components were computed from the 1000 genomes population datasets, and the loadings were used to project the simulated individuals onto the PC space. These results demonstrate that REGENS replicates the the input data's overall population structure in simulated datasets. Note that CEU samples, despite being considered European by the 1000 Genomes project, are plotted with other Americans because they are from Utah.
+3. These figures compare TSNE plots of the first 10 principal components for real and simulated 1000 genomes subpopulations that are members of the AFR superpopulation. Principal components were computed from all twenty-six 1000 genomes population datasets, and the loadings were used to project the simulated individuals onto the PC space. These results demonstrate that REGENS replicates the the input data's overall population structure in simulated datasets.
 
 ![TSNE1 vs TSNE2 for 1000 genome African subpopulations](images/tsne.png)
