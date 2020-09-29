@@ -1,13 +1,12 @@
 ## About REGENS :dna:
 
 REGENS (REcombinatory Genome ENumeration of Subpopulations) is an open source Python package that simulates whole genomes from real genomic segments. 
-REGENS recombining these segments in a way that preserves their linkage disequilibrium (LD) such that the simulated genomes closely resemble the realistic input population \cite{source:1}
-Given a biological trait (phenotype), REGENS can also simulate mono-allelic and epistatic single nucleotide variant (SNV) effects of any order without perturbing the simulated LD pattern.
+REGENS recombines these segments in a way that simulates completely new individuals while simultaneously preserving the input genomes' linkage disequilibrium (LD) pattern with extremely high fedility. REGENS can also simulate mono-allelic and epistatic single nucleotide variant (SNV) effects on a continuous or binary phenotype without perturbing the simulated LD pattern.
 
 ## Input :inbox_tray:
 REGENS requires the following inputs:
 - real genotype data formatted as a standard (bed, bim, fam) plink _fileset_, ideally contains a minimum of 80 unrelated individuals.
-- a folder with one gzipped tab seperated dataframe per chromosome. Each dataframe, [formatted as such](https://raw.githubusercontent.com/EpistasisLab/REGENS/master/hg19/ACB/ACB_recombination_map_hapmap_format_hg19_chr_1.txt?token=AKJ677MJLXQBVU243VENRWS7NY4XC), contains genomic position intervals and recombination rates.
+- a folder with one gzipped tab seperated dataframe per chromosome. Each dataframe, [formatted as such](https://raw.githubusercontent.com/EpistasisLab/REGENS/master/hg19/ACB/ACB_recombination_map_hapmap_format_hg19_chr_1.txt?token=AKJ677MJLXQBVU243VENRWS7NY4XC), contains genomic positions of intervals' boundaries and the intervals' recombination rates.
 
 We provide the second input for all twenty-six 1000 genomes populations created by the [pyrho algorithm](https://github.com/popgenmethods/pyrho).
 
@@ -37,7 +36,7 @@ On your command line, change working directory to the `regens` directory.
 
 ## Simulate genotype data
 
-The following command uses `ACB.bed`, `ACB.bim`, and `ACB.fam` to simulate 10000 individuals.
+The following command uses `ACB.bed`, `ACB.bim`, and `ACB.fam` to simulate 10000 individuals without phenotypes.
 
 ```bash
 python regens.py \
@@ -121,11 +120,7 @@ python regens.py \
 --betas_path input_files/betas.txt
 ```
 
-* --major_minor_assign_path: the name of the file formatted as `major_minor_assign.txt` or the full path if its not in the working directory
-* --SNP_phenotype_map_path: the name of the file formatted as `SNP_phenotype_map.txt` or the full path if its not in the working directory
-
-In addition to the notation from the first example, let S<sub>i</sub> = _swap_(s<sub>i</sub>) be the i<sup>th</sup> genotype to influence the value of _y_ such that (AA = 2, Aa = 1, and aa = 0).
-Also, we recall the definitions for the four nontrivial mapping functions (R, D, He, Ho) defined prior to the first example. The second example models phenotypes as follows:
+In addition to the notation from the first example, let S<sub>i</sub> = _swap_(s<sub>i</sub>) be the i<sup>th</sup> genotype to influence the value of _y_ such that (AA = 2, Aa = 1, and aa = 0). Also, we recall the definitions for the four nontrivial mapping functions (R, D, He, Ho) defined prior to the first example. The second example models phenotypes as follows:
 
 y = 0.5s<sub>1</sub>+ 0.5R(S<sub>2</sub>) + 0.5He(s<sub>3</sub>) + B + &epsilon;
 
@@ -135,7 +130,7 @@ where &epsilon; ~ N(&mu; = 0, &sigma;<sub>&epsilon;</sub> = 0.5E[y] and E[y] = 5
 <!-- <img src="https://render.githubusercontent.com/render/math?math=\epsilon ~ N(\mu = 0, \sigma_{\epsilon} = 0.5E[y])">
 <img src="https://render.githubusercontent.com/render/math?math=E[y] = 5.75"> -->
 
-Specifying that (AA = 2, Aa = 1, and aa = 0) for one or more alleles is optional and requires `input_files/major_minor_assign.txt`.
+Specifying that (AA = 2, Aa = 1, and aa = 0) for one or more alleles is optional and requires `input_files/major_minor_assignments.txt`.
 
 ```
 0
@@ -153,8 +148,7 @@ heterozygous_only
 
 ### Example 3: inclusion of epistatic effects
 
-REGENS models epistasis between an arbitrary number of SNPs as the product of transformed SNP values in an individual.
-Same command as in Example 2 simulates genotype-phenotype relationships for a different model if the input files were modified.
+REGENS models epistasis between an arbitrary number of SNPs as the product of transformed genotype values in an individual.
 
 ```bash
 python regens.py \
@@ -192,10 +186,10 @@ For each row containing one or more SNP IDs, `input_files/betas.txt` contains a 
 0.5
 ```
 
-As before, both `input_files/major_minor_assign.txt` and `input_files/SNP_phenotype_map.txt` are both optional.
-If they are not specified, then all SNPs will have the minor allele equal 1 so that the homozygous minor genotype equals 2, and all SNP_phenotype maps will be regular.
+As before, both `input_files/major_minor_assignments.txt` and `input_files/SNP_phenotype_map.txt` are both optional.
+If they are not specified, then all genotypes of individual SNPs will have the standard (AA = 0, Aa = 1, and aa = 2) encoding.
 
-For each SNP ID, `input_files/major_minor_assign.txt` specifies whether the minor allele or the major allele equals 1, and correspondingly, whether homozygous minor or homozygous major equals 2.
+For each SNP ID, `input_files/major_minor_assignments.txt` specifies whether or not untransformed genotypes of individual SNPs follow the (AA = 2, Aa = 1, and aa = 0) encoding.
 CAUTION: In general, if a SNP appears in two different effects, then it may safely have different major/minor assignments in different effects.
 However, if a SNP appears twice in the same effect, then make sure it has the same major/minor assignment within that effect, or that effect may equal 0 depending on the map functions that are used on the SNP. 
 
@@ -205,13 +199,15 @@ However, if a SNP appears twice in the same effect, then make sure it has the sa
 1	0	0
 ```
 For each SNP ID, `input_files/SNP_phenotype_map.txt` specifies whether the SNP's effect is regular, recessive, dominant, heterozygous_only, or homozygous_only.
-In context to an epistatic interaction, first the map functions are applied to their respective SNPs, and then the resulting mapped SNP values are multiplied together as specified by `input_files/causal_SNP_IDs.txt`.
 
 ```
 regular
 dominant	regular
 homozygous_only	regular	regular
 ```
+
+In context to an epistatic interaction, first the _Swap_ function is applied to SNPs specified by `input_files/major_minor_assignments.txt`, then map functions specified by `input_files/SNP_phenotype_map.txt` are applied to their respective SNPs. The transformed genotypes of SNPs in the same row of `input_files/causal_SNP_IDs.txt` are multiplied together and by the corresponding beta coefficient in `input_files/betas.txt`. Each individual's phenotype is then the sum of row products, the bias, and the random noise term.
+
 ## Repository structure
 
 
