@@ -462,7 +462,7 @@ def simulate_phenotypes(output_file_names, causal_SNP_IDs_path, cumulative_SNP_c
     """
 
     # imports required model components (SNPs and beta values).
-    github_link = "blahblahblah.com"
+    github_link = "https://github.com/EpistasisLab/regens"
     causal_SNP_IDs = open(causal_SNP_IDs_path, "r").readlines()
     try:
         betas = np.array(open(betas_path, "r").readlines()).astype(np.float64)

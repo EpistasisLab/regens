@@ -1,0 +1,87 @@
+Sender: LSF System <jszostek@lambda25>
+Subject: Job 6898163: <unit_tests> in cluster <PMACS-SCC> Done
+
+Job <unit_tests> was submitted from host <sarlacc> by user <greggj> in cluster <PMACS-SCC> at Tue Sep 29 17:28:35 2020
+Job was executed on host(s) <lambda25>, in queue <epistasis_normal>, as user <greggj> in cluster <PMACS-SCC> at Tue Sep 29 17:28:36 2020
+</home/greggj> was used as the home directory.
+</home/greggj/GxE/REALGenomeSIM/regens/unit_testing_files> was used as the working directory.
+Started at Tue Sep 29 17:28:36 2020
+Terminated at Tue Sep 29 17:28:57 2020
+Results reported at Tue Sep 29 17:28:57 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J unit_tests
+#BSUB -o unit_tests.out
+#BSUB -e unit_tests.err
+source activate PyTriadsim
+
+cd ../
+
+python regens.py --in input_files/ACB --out unit_testing_files/ACB_simulated --simulate_nbreakpoints 4 --simulate_nsamples 1000 \
+--phenotype continuous --mean_phenotype 5.75 --population_code ACB --human_genome_version hg19 --noise 0.5 \
+--causal_SNP_IDs_path input_files/causal_SNP_IDs.txt --major_minor_assignments_path input_files/major_minor_assignments.txt \
+--betas_path input_files/betas.txt --SNP_phenotype_map_path input_files/SNP_phenotype_map.txt --test_functionality test_units
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   7.48 sec.
+    Max Memory :                                 748 MB
+    Average Memory :                             563.25 MB
+    Total Requested Memory :                     4096.00 MB
+    Delta Memory :                               3348.00 MB
+    Max Swap :                                   -
+    Max Processes :                              5
+    Max Threads :                                6
+    Run time :                                   26 sec.
+    Turnaround time :                            22 sec.
+
+The output (if any) follows:
+
+
+Using input_files/ACB.bed, input_files/ACB.bim and input_files/ACB.fam as input files for unit testing
+
+
+Simulating 1000 samples and 500000 SNPs will require roughly 0.19767682662800987 minutes and a maximum ram usage of 0.3859404710356383 GB.
+
+
+Using population code ACB for unit testing
+
+Instance 1 of the SNP_positions_to_rcmb_intervals function passed its unit test.
+
+The reduce_recomb_rate_info function passed its unit test.
+
+simulating chromosome 1
+The get_samples_fast_SNP_minor_allele_counts function passed its unit test.
+
+The get_samples_fast_simulated_individual_minor_allele_counts function passed its unit test.
+
+The get_samples_fast_breakpoint_interval_minor_allele_counts function passed its unit test.
+
+The centimorgans_to_probabilities function passed its unit test.
+
+The choice_with_periodic_replacement function passed its unit test.
+
+Instance 2 of the SNP_positions_to_rcmb_intervals function passed its unit test.
+
+The draw_breakpoints function passed its unit test.
+
+The write_bed_file function passed its unit test.
+
+The write_bed_file function's .bim file output passed its unit test.
+
+The write_bed_file function's .fam file output passed its unit test.
+
+
+
+PS:
+
+Read file <unit_tests.err> for stderr output of this job.
+
