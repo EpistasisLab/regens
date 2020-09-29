@@ -210,6 +210,19 @@ In context to an epistatic interaction, first the _Swap_ function is applied to 
 
 ## Repository structure
 
+* Folders
+    * correctness_testing_ACB: A directory containing bash scripts to test code correctness on the ACB subpopulation, as well as the output for those tests. Correctness testing part 2 is optional and requires plink version 1.90Beta.
+    * correctness_testing_GBR: A directory containing bash scripts to test code correctness on the GBR subpopulation, as well as the output for those tests. Correctness testing part 2 is optional and requires plink version 1.90Beta.
+    * hg19: for each 1000 genomes project population, contains a folder with one gzipped recombination rate dataframe per hg19 reference human autosome.
+    * hg38: for each 1000 genomes project population, contains a folder with one gzipped recombination rate dataframe per hg38 reference human autosome.
+    * images: contains figures that are either displayed or linked to in this github README
+    * input_files: contains examples of regens input that is meant to be provided by the user. The example custom recombination rate information is copied from that of the hg19 mapped ACB population. Also contains input for the Triadsim algorithm. The genetic input labeled as "not_trio" for Triadsim is comprised of ACB population duplicates and is only meant to compare Triadsim's runtime. 
+    * unit_testing_files: A directory containing bash scripts to unit test code correctness on the ACB subpopulation, as well as the output for those tests.
+* Files
+    * regens.py: the main file that runs the regens algorithm
+    * regens_library.py: functions that the regens algorithm uses repeatedly. 
+    * regens_testers.py: functions used exclusively for correctness testing and unit testing
+    * simulate_genotypes_with[suffix]: simulates the datasets described in the readme
 
 ## Contributing
 If you find any bugs or have any suggestions/questions, please feel free to [post an issue](https://github.com/EpistasisLab/regens/issues/new)! 
