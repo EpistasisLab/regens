@@ -270,16 +270,16 @@ The Triadsim algorithm has used this method to simulate LD patterns that are alm
 
 ## REGENS simulates nearly flawless GWAS data
 
-The Triadsim algorithm simulates LD patterns that are almost indistinguishable from those of the input Dataset. REGENS uses triadsim's method of recombining genomic segments to simulate equally realistic data, and we measured it to be 88 times faster and require 8 times lower peak RAM than Triadsim. The following three figures show that REGENS nearly perfectly replicates the input dataset's LD pattern. 
+The Triadsim algorithm simulates LD patterns that are almost indistinguishable from those of the input Dataset. REGENS uses triadsim's method of recombining genomic segments to simulate equally realistic data, and we measured it to be 88 times faster (95%CI: [75.1, 105.0]) and require 6.2 times lower peak RAM (95%CI [6.04, 6.33]) than Triadsim on average. The following three figures show that REGENS nearly perfectly replicates the input dataset's LD pattern. 
 
-1. For the 1000 genome project's ACB population, this figure compares (right) every SNP's real maf against it's simulated maf and (left) every SNP pair's real genotype pearson correlation coefficient against its simulated genotype pearson correlation coefficient for SNP pairs less than  200 kilobases apart.
+1. For the 1000 genome project's ACB population, this figure compares (right) every SNP's real maf against it's simulated maf and (left) every SNP pair's real genotype pearson correlation coefficient against its simulated genotype pearson correlation coefficient for SNP pairs less than  200 kilobases apart. 100000 simulated individuals were used. 
 
 ![Real and simulated R value vs. MAF](images/r_maf_ACB.png)
 
-2. For the 1000 genome project's ACB population, this figure plots SNP pairs' absolute r values against their distance apart (up to 200 kilobases apart) for both real and simulated populations. More specifically, SNP pairs were sorted by their distance apart and seperated into 4000 adjacent bins, so each datapoint plots one bin's average absolute r value against its average position.
+2. For the 1000 genome project's ACB population, this figure plots SNP pairs' absolute r values against their distance apart (up to 200 kilobases apart) for both real and simulated populations. More specifically, SNP pairs were sorted by their distance apart and seperated into 4000 adjacent bins, so each datapoint plots one bin's average absolute r value against its average position. 100000 simulated individuals were used. 
 
 ![Real and simulated R value vs. distance_profile](images/r_dist_ACB.png)
 
-3. These figures compare TSNE plots of the first 10 principal components for real and simulated 1000 genomes subpopulations that are members of the AFR superpopulation. Principal components were computed from all twenty-six 1000 genomes population datasets, and the loadings were used to project the simulated individuals onto the PC space. These results demonstrate that REGENS replicates the the input data's overall population structure in simulated datasets.
+3. These figures compare TSNE plots of the first 10 principal components for real and simulated 1000 genomes subpopulations that are members of the AFR superpopulation. Principal components were computed from all twenty-six 1000 genomes population datasets, and the loadings were used to project the simulated individuals onto the PC space. These results demonstrate that REGENS replicates the the input data's overall population structure in simulated datasets. 10000 simulated individuals were used. 
 
 ![TSNE1 vs TSNE2 for 1000 genome African subpopulations](images/tsne.png)
