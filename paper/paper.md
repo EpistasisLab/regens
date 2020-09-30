@@ -38,7 +38,7 @@ Since humans of different ancestry have different LD patterns
 [@source:5], a simulation that can replicate those patterns from a small
 number of real samples is desirable. Therefore, intended users of REGENS
 are computational biologists who aim to test a statistical learning
-model on simulated GWAS data with precise realistic LD patterns.\
+model on simulated GWAS data with precise realistic LD patterns.
 
 Algorithm overview
 ==================
@@ -66,11 +66,11 @@ distribution of recombination events learned from drawing breakpoints
 for many simulated individuals approaches the input population's
 distribution of recombination events. Genomic segments that only contain
 alleles in high LD are rarely separated by breakpoints, which retains
-the original LD pattern (figure 1).\
+the original LD pattern (Figure 1).
 
 ![image](tsne.png)\
 Figure 1: Comparison of population whole genomes in 2 dimensional TSNE
-space.\
+space.
 
 Differentiating attributes
 ==========================
@@ -100,7 +100,7 @@ continuous and binary phenotypes that depend on any linear combination
 of products of f(SNV) values, where f transforms the standard SNP values
 of $\{0,1,2\}$ to represent nonlinear monoallelic effects (such as
 dominance). Example implementations of these features are in REGENS'
-GitHub repository.\
+GitHub repository.
 
 Inspiration and dependencies
 ============================
@@ -115,9 +115,9 @@ genotypes into new bed files. REGENS also relies on the 1000 genomes
 project's whole genomes from 26 distinct sub-populations [@source:9],
 and it relies on those populations' corresponding genome-wide
 sex-averaged recombination rates inferred by the pyrho algorithm
-[@source:10].\
+[@source:10].
 
-Acknowledgements {#acknowledgements .unnumbered}
+Acknowledgements
 ================
 
 We acknowledge contributions from Carl Kadie, who developed PySnpTools,
