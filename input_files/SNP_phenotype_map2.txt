@@ -1,0 +1,3 @@
+regular
+dominant	regular
+homozygous_only	regular	regular
