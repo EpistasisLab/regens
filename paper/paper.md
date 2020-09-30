@@ -109,7 +109,7 @@ REGENS was inspired by Triadsim's idea to draw simulated breakpoints at
 locations with higher recombination rates, as well as well as by
 GAMETE's objective of simulating data quickly. REGENS relies on
 bed-reader, a spinoff of PySnpTools's core .bed file code [@source:8],
-to optimally read uniformly re-sampled rows from plink bed files as 8
+to optimally read re-sampled rows from plink bed files as 8
 bit integers and then write the 8 bit integer simulated autosomal
 genotypes into new bed files. REGENS also relies on the 1000 genomes
 project's whole genomes from 26 distinct sub-populations [@source:9],
