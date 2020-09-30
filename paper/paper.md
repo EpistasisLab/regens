@@ -68,7 +68,7 @@ distribution of recombination events. Genomic segments that only contain
 alleles in high LD are rarely separated by breakpoints, which retains
 the original LD pattern (figure 1).\
 
-![image](images/tsne.png)\
+![image](tsne.png)\
 Figure 1: Comparison of population whole genomes in 2 dimensional TSNE
 space.\
 
