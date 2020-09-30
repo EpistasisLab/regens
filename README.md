@@ -6,9 +6,9 @@ REGENS recombines these segments in a way that simulates completely new individu
 ## Input :inbox_tray:
 REGENS requires the following inputs:
 - real genotype data formatted as a standard (bed, bim, fam) plink _fileset_, ideally contains a minimum of 80 unrelated individuals.
-- a folder with one gzipped tab seperated dataframe per chromosome. Each dataframe, [formatted as such](https://raw.githubusercontent.com/EpistasisLab/REGENS/master/hg19/ACB/ACB_recombination_map_hapmap_format_hg19_chr_1.txt?token=AKJ677MJLXQBVU243VENRWS7NY4XC), contains genomic positions of intervals' boundaries and the intervals' recombination rates.
+- a folder with one gzipped tab seperated dataframe per chromosome. Each dataframe contains genomic positions of intervals' boundaries and the intervals' recombination rates.
 
-We provide the second input for all twenty-six 1000 genomes populations created by the [pyrho algorithm](https://github.com/popgenmethods/pyrho).
+We provide the second input for all twenty-six 1000 genomes populations created by the [pyrho algorithm](https://github.com/popgenmethods/pyrho) and modified by us to minimize required disk space. 
 
 ### IMPORTANT NOTICE (PLEASE READ)
 
@@ -18,7 +18,7 @@ We provide the second input for all twenty-six 1000 genomes populations created 
 Standard output is a standard (bed, bim, fam) plink fileset with the simulated genotype data (and optional phenotype information). 
 If plink is not available to you, please consider [bed-reader](https://pypi.org/project/bed-reader/0.1.1/), which reads (bed, bim, fam) plink filesets into the python environment quickly and efficiently. 
  
-In phenotype simulation, REGENS also outputs a distribution of phenotypes (see [example](https://github.com/EpistasisLab/REGENS/blob/master/images/example1_all_1000_genomes_ACB_simulated_phenotype_profile.png)) and a file containing the R<sup>2</sup> value of the phenotype/genotype correlation and the *inferred* beta coefficients (see [example](https://github.com/EpistasisLab/REGENS/blob/master/images/example1_all_1000_genomes_ACB_simulated_phenotype_profile.png)), which will most likely be close to but not equal to the input beta coefficients.
+In phenotype simulation, REGENS also outputs a distribution of phenotypes (see [example](https://github.com/EpistasisLab/regens/blob/main/correctness_testing_ACB/ACB_simulated_phenotype_profile.png)) and a file containing the R<sup>2</sup> value of the phenotype/genotype correlation and the *inferred* beta coefficients (see [example](https://github.com/EpistasisLab/regens/blob/main/correctness_testing_ACB/ACB_simulated_model_profile.txt)), which will most likely be close to but not equal to the input beta coefficients.
 
 ## Installing REGENS 
 
@@ -54,11 +54,11 @@ The following command uses custom recombination rate files instead of the ones p
 
 ```bash
 python regens.py \
-    --in input_files/ACB \
-    --out ACB_simulated \
-    --simulate_nsamples 10000 \
-    --simulate_nbreakpoints 4 \
-    --recombination_file_path_prefix input_files/hg19_ACB_renamed_as_custom/custom_chr_
+  --in input_files/ACB \
+  --out ACB_simulated \
+  --simulate_nsamples 10000 \
+  --simulate_nbreakpoints 4 \
+  --recombination_file_path_prefix input_files/hg19_ACB_renamed_as_custom/custom_chr_
 ```
 
 Importantly, `custom_chr_` includes the entire recombination rate file name up to the number of the chromosome, and that every file suffix must be `.txt.gz`. Note that it is also important for the `.txt.gz` files to actually be gzipped (as opposed to a meaningless `txt.gz` extension). 
@@ -274,7 +274,11 @@ The Triadsim algorithm has used this method to simulate LD patterns that are alm
     * regens.py: the main file that runs the regens algorithm
     * regens_library.py: functions that the regens algorithm uses repeatedly. 
     * regens_testers.py: functions used exclusively for correctness testing and unit testing
-    * simulate_genotypes_with[suffix]: simulates the datasets described in the readme
+    * simulate_genotypes_with_additive_effects.sh: simulates the README example "Example 1: a simple additive model"
+    * simulate_genotypes_with_custom_recombination_rate_dataframe.sh: simulates the README example "Simulate genotype data with custom recombination rate dataframes"
+    * simulate_genotypes_with_epistatic_effects.sh: simulates the README example "Example 2: inclusion of nonlinear single-SNP effects"
+    * simulate_genotypes_with_nonlinear_effects.sh: simulates the README example "Example 3: inclusion of epistatic effects"
+    * simulate_genotypes_without_effects.sh: simulates the README example "Simulate genotype data"
 
 ## Contributing
 If you find any bugs or have any suggestions/questions, please feel free to [post an issue](https://github.com/EpistasisLab/regens/issues/new)! 
