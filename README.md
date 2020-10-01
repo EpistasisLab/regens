@@ -34,7 +34,7 @@ REGENS requires the following inputs:
 
 We provide the second input for all twenty-six 1000 genomes populations created by the [pyrho algorithm](https://github.com/popgenmethods/pyrho) and modified by us to minimize required disk space. 
 
-### IMPORTANT NOTICE (PLEASE READ)
+### :star2: IMPORTANT NOTICE (PLEASE READ) :star2:
 
 REGENS's simulated genomes are comprised entirely of concatenated segments from the input dataset's real genomes. If your input genomes are not available for public use, then you may not be allowed to publicly release the simulated dataset. Please consult the institutions that provide you access to your input genotype dataset for more information about this matter.
 
@@ -44,7 +44,7 @@ If plink is not available to you, please consider [bed-reader](https://pypi.org/
  
 In phenotype simulation, REGENS also outputs a distribution of phenotypes (see [example](https://github.com/EpistasisLab/regens/blob/main/correctness_testing_ACB/ACB_simulated_phenotype_profile.png)) and a file containing the R<sup>2</sup> value of the phenotype/genotype correlation and the *inferred* beta coefficients (see [example](https://github.com/EpistasisLab/regens/blob/main/correctness_testing_ACB/ACB_simulated_model_profile.txt)), which will most likely be close to but not equal to the input beta coefficients.
 
-## Simulate genotype data
+## Simulate genotype data :computer:
 
 The following command uses `ACB.bed`, `ACB.bim`, and `ACB.fam` to simulate 10000 individuals without phenotypes. Windows users should replace all `\`  linebreak characters with `^`.
 
@@ -58,7 +58,7 @@ python regens.py \
   --human_genome_version hg19
 ```
 
-## Simulate genotype data with custom recombination rate dataframes
+## Simulate genotype data with custom recombination rate dataframes :abacus:
 
 The following command uses custom recombination rate files instead of the ones provided in the `hg19` and `hg38` folders (though it is just a copy of `hg19/ACB`). NOTE: recombination rates between similar populations (i.e. English and Italian) are highly correlated, so customizing your recombination rate files is unlikely to be necessary or helpful for simulating human genotype data. 
 
@@ -272,7 +272,7 @@ The Triadsim algorithm has used this method to simulate LD patterns that are alm
 
 ## Repository structure
 
-### Folders
+### Folders :file_cabinet:
 
   * `correctness_testing_ACB`: A directory containing bash scripts to test code correctness on the ACB subpopulation, as well as the output for those tests. Correctness testing part 2 is optional and requires plink version 1.90Beta.
   * `correctness_testing_GBR`: A directory containing bash scripts to test code correctness on the GBR subpopulation, as well as the output for those tests. Correctness testing part 2 is optional and requires plink version 1.90Beta.
@@ -282,7 +282,7 @@ The Triadsim algorithm has used this method to simulate LD patterns that are alm
   * `input_files`: contains examples of regens input that is meant to be provided by the user. The example custom recombination rate information is copied from that of the hg19 mapped ACB population. Also contains input for the Triadsim algorithm. The genetic input labeled as "not_trio" for Triadsim is comprised of ACB population duplicates and is only meant to compare Triadsim's runtime. 
   * `unit_testing_files`: A directory containing bash scripts to unit test code correctness on the ACB subpopulation, as well as the output for those tests.
 
-### Files
+### Files :file_folder:
 
   * `regens.py`: the main file that runs the regens algorithm
   * `regens_library.py`: functions that the regens algorithm uses repeatedly. 
