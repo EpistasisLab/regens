@@ -1,5 +1,30 @@
-Summary
-=======
+---
+title: 'REGENS: an open source Python package for generating synthetic autosomal genotypes'
+tags:
+  - genomics
+  - data simulation
+  - bioinformatics
+  - python
+authors:
+  - name: John T. Gregg
+    orcid: 0000-0002-2619-3440
+    affiliation: 1
+  - name: Trang T. Le
+    orcid: 0000-0003-3737-6565
+    affiliation: 1
+  - name: Jason H. Moore
+    orcid: 0000-0002-5015-1099
+    affiliation: 2
+affiliations:
+ - name: Department of Biostatistics, Epidemiology and Informatics, University of Pennsylvania, Philadelphia, PA 19087, USA
+   index: 1
+ - name: Institute for Biomedical Informatics, University of Pennsylvania, Philadelphia, PA 19087, USA
+   index: 2
+date: 01 October 2020
+bibliography: paper.bib
+---
+
+# Summary
 
 REcombinatory Genome ENumeration of Subpopulations (REGENS) is an open
 source Python package that simulates autosomal genotypes by
@@ -18,8 +43,7 @@ only if homozygous. All simulated effects contribute to the value of
 either a binary or continuous biological trait (phenotype) with a
 specified mean value and a specified amount of random noise.
 
-Statement of need
-=================
+# Statement of need
 
 The goal of most genome-wide association studies (GWAS) is to identify
 associations between single nucleotide variants (SNVs) and a phenotype
@@ -40,8 +64,7 @@ number of real samples is desirable. Therefore, intended users of REGENS
 are computational biologists who aim to test a statistical learning
 model on simulated GWAS data with precise realistic LD patterns.
 
-Algorithm overview
-==================
+# Algorithm overview
 
 Two genomic segments are said to be in low LD if alleles are
 approximately uncorrelated between the two segments, which is guaranteed
@@ -102,8 +125,7 @@ of $\{0,1,2\}$ to represent nonlinear monoallelic effects (such as
 dominance). Example implementations of these features are in REGENS'
 GitHub repository.
 
-Inspiration and dependencies
-============================
+# Inspiration and dependencies
 
 REGENS was inspired by Triadsim's idea to draw simulated breakpoints at
 locations with higher recombination rates, as well as well as by
@@ -117,9 +139,10 @@ and it relies on those populations' corresponding genome-wide
 sex-averaged recombination rates inferred by the pyrho algorithm
 [@source:10].
 
-Acknowledgements
-================
+# Acknowledgements
 
 We acknowledge contributions from Carl Kadie, who developed PySnpTools,
 for implementing its ability to read and write plink bed files as 8 bit
 integers. This work was supported by NIH grant LM010098.
+
+# References
