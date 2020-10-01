@@ -8,9 +8,11 @@
 #BSUB -n 1
 source activate PyTriadsim
 
+cd ../
+
 python regens.py \
 --in input_files/ACB \
---out ACB_simulated \
+--out examples/ACB_simulated \
 --simulate_nsamples 10000 \
 --simulate_nbreakpoints 4 \
 --population_code ACB \
