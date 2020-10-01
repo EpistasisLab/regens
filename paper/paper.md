@@ -1,5 +1,5 @@
 ---
-title: 'REGENS: an open source Python package for generating synthetic autosomal genotypes'
+title: 'REGENS: an open source Python package for simulating realistic autosomal genotypes'
 tags:
   - genomics
   - data simulation
