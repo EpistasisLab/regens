@@ -144,3 +144,5 @@ sex-averaged recombination rates inferred by the pyrho algorithm
 We acknowledge contributions from Carl Kadie, who developed PySnpTools,
 for implementing its ability to read and write plink bed files as 8 bit
 integers. This work was supported by NIH grant LM010098.
+
+# References
