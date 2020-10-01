@@ -80,8 +80,7 @@ holds: $$\label{eq:e_ri}
 P(R_i = 1) = 1 \times P(R_i = 1) + 0 \times P(R_i = 0) = E[R_i],$$
 hence, $$\label{eq:e_frac} 
 \frac{P(R_i = 1)}{\sum_{i} P(R_i = 1)} = \frac{E[R_i]}{\sum_{i} E[R_i]}.$$\
-Drawing simulated breakpoints from the right hand side of (Eq.
-[\[eq:e_frac\]](#eq:e_frac){reference-type="ref" reference="eq:e_frac"})
+Drawing simulated breakpoints from the right hand side of (Eq. \autoref{eq:e_frac})
 is like drawing differently colored marbles from a jar. Just as the
 color composition inferred from drawing (with replacement) a marble from
 a jar many times approaches the true distribution of colors, the
