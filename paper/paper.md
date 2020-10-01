@@ -82,7 +82,7 @@ P(R_i = 1) = 1 \times P(R_i = 1) + 0 \times P(R_i = 0) = E[R_i],
 hence, \begin{equation}\label{eq:e_frac} 
 \frac{P(R_i = 1)}{\sum_{i} P(R_i = 1)} = \frac{E[R_i]}{\sum_{i} E[R_i]}.
 \end{equation}
-Drawing simulated breakpoints from the right hand side of (Eq. \autoref{eq:e_frac})
+Drawing simulated breakpoints from the right hand side of (\autoref{eq:e_frac})
 is like drawing differently colored marbles from a jar. Just as the
 color composition inferred from drawing (with replacement) a marble from
 a jar many times approaches the true distribution of colors, the
@@ -92,11 +92,9 @@ distribution of recombination events. Genomic segments that only contain
 alleles in high LD are rarely separated by breakpoints, which retains
 the original LD pattern (Figure \autoref{fig:tsne}).
 
-![Comparison of population whole genomes in 2 dimensional TSNE
-space.\label{fig:tsne}](tsne.png)\
+![Comparison of population whole genomes in 2 dimensional TSNE space.\label{fig:tsne}](tsne.png)
 
-Differentiating attributes
-==========================
+## Differentiating attributes
 
 Many packages were built to simulate genetic data with different goals
 in mind. Genetic Architecture Model Emulator for Testing and Evaluating
