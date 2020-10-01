@@ -76,10 +76,12 @@ from here on), then the LD pattern of the resultant in-silico autosomal
 genotypes will change minimally [@source:1]. To illustrate this point,
 let us let $P(R_i = 1)$ be the probability of *observing* a
 recombination event at the $i^{th}$ genomic position. The following
-holds: $$\label{eq:e_ri}
-P(R_i = 1) = 1 \times P(R_i = 1) + 0 \times P(R_i = 0) = E[R_i],$$
-hence, $$\label{eq:e_frac} 
-\frac{P(R_i = 1)}{\sum_{i} P(R_i = 1)} = \frac{E[R_i]}{\sum_{i} E[R_i]}.$$\
+holds: \begin{equation}\label{eq:e_ri}
+P(R_i = 1) = 1 \times P(R_i = 1) + 0 \times P(R_i = 0) = E[R_i],
+\end{equation}
+hence, \begin{equation}\label{eq:e_frac} 
+\frac{P(R_i = 1)}{\sum_{i} P(R_i = 1)} = \frac{E[R_i]}{\sum_{i} E[R_i]}.
+\end{equation}
 Drawing simulated breakpoints from the right hand side of (Eq. \autoref{eq:e_frac})
 is like drawing differently colored marbles from a jar. Just as the
 color composition inferred from drawing (with replacement) a marble from
@@ -88,11 +90,10 @@ distribution of recombination events learned from drawing breakpoints
 for many simulated individuals approaches the input population's
 distribution of recombination events. Genomic segments that only contain
 alleles in high LD are rarely separated by breakpoints, which retains
-the original LD pattern (Figure 1).
+the original LD pattern (Figure \autoref{fig:tsne}).
 
-![image](tsne.png)\
-Figure 1: Comparison of population whole genomes in 2 dimensional TSNE
-space.
+![Comparison of population whole genomes in 2 dimensional TSNE
+space.\label{fig:tsne}](tsne.png)\
 
 Differentiating attributes
 ==========================
