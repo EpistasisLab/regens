@@ -90,7 +90,7 @@ distribution of recombination events learned from drawing breakpoints
 for many simulated individuals approaches the input population's
 distribution of recombination events. Genomic segments that only contain
 alleles in high LD are rarely separated by breakpoints, which retains
-the original LD pattern (Figure \autoref{fig:tsne}).
+the original LD pattern (\autoref{fig:tsne}).
 
 ![Comparison of population whole genomes in 2 dimensional TSNE space.\label{fig:tsne}](tsne.png)
 
