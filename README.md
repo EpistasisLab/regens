@@ -6,7 +6,7 @@ REGENS recombines these segments in a way that simulates completely new individu
 ## Installing REGENS :hammer_and_wrench:
 
 REGENS' dependencies can be installed with pip as follows: 
-```console
+```shell
 pip install bed-reader
 pip install numpy
 pip install pandas
@@ -15,15 +15,15 @@ pip install scipy
 pip install scikit-learn
 ```
 After the dependency installation, to acquire the necessary data files for REGENS to run, please `Download ZIP` (under the green Code button on the top right) or clone this repository with
-```console
+```shell
 git clone https://github.com/EpistasisLab/regens.git
 ```
 or (if your SSH key is set up)
-```console
+```shell
 git@github.com:EpistasisLab/regens.git
 ```
 Finally, on your command line, change working directory to the `regens` directory:
-```console
+```shell
 cd regens
 ```
 
@@ -48,7 +48,7 @@ In phenotype simulation, REGENS also outputs a distribution of phenotypes (see [
 
 The following command uses `ACB.bed`, `ACB.bim`, and `ACB.fam` to simulate 10000 individuals without phenotypes. Windows users should replace all `\`  linebreak characters with `^`.
 
-```console
+```shell
 python regens.py \
   --in input_files/ACB \
   --out ACB_simulated \
@@ -62,7 +62,7 @@ python regens.py \
 
 The following command uses custom recombination rate files instead of the ones provided in the `hg19` and `hg38` folders (though it is just a copy of `hg19/ACB`). NOTE: recombination rates between similar populations (i.e. English and Italian) are highly correlated, so customizing your recombination rate files is unlikely to be necessary or helpful for simulating human genotype data. 
 
-```console
+```shell
 python regens.py \
   --in input_files/ACB \
   --out ACB_simulated \
@@ -79,7 +79,7 @@ The i<sup>th</sup> value of "Map(cM)" is the cumulative recombination rate from 
 
 An example of how this must be formatted is below (remember that there must be one per chromosome, and they must all be gzipped):
 
-```console
+```shell
 Position(bp)	Map(cM)
 16050114	0.0
 16058757	0.01366
@@ -110,7 +110,7 @@ The table below shows how each combination of one step 1 function (columns) and 
 
 A full command for REGENS to simulate genomic data with correlated phenotypes would be formatted as follows:
 
-```console
+```shell
 python regens.py \
   --in input_files/ACB --out ACB_simulated \
   --simulate_nsamples 10000 --simulate_nbreakpoints 4 \
@@ -148,7 +148,7 @@ rs5836360
 
 ### Example 2: inclusion of nonlinear single-SNP effects
 
-```console
+```shell
 python regens.py \
   --in input_files/ACB --out ACB_simulated \
   --simulate_nbreakpoints 4 --simulate_nsamples 10000 \
@@ -190,7 +190,7 @@ heterozygous_only
 
 REGENS models epistasis between an arbitrary number of SNPs as the product of transformed genotype values in an individual.
 
-```console
+```shell
 python regens.py \
   --in input_files/ACB --out ACB_simulated \
   --simulate_nbreakpoints 4 --simulate_nsamples 10000 \
