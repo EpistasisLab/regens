@@ -20,7 +20,7 @@ git clone https://github.com/EpistasisLab/regens.git
 ```
 or (if your SSH key is set up)
 ```shell
-git@github.com:EpistasisLab/regens.git
+git clone git@github.com:EpistasisLab/regens.git
 ```
 Finally, on your command line, change working directory to the `regens` directory:
 ```shell
