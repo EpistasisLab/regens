@@ -127,6 +127,8 @@ y = 0.5s<sub>1</sub> + 0.5s<sub>2</sub> + 0.5s<sub>3</sub> + B + &epsilon;
 
 where &epsilon; ~ N(&mu; = 0, &sigma;<sub>&epsilon;</sub> = 0.5E[y]) and E[y] = 5.75.
 
+Notice that the values of &sigma;<sub>&epsilon;</sub> and E[y] are determined by the `--noise` and `--mean_phenotype` arguments.
+
 <!-- h<sub>&theta;</sub>(x) = &theta;<sub>o</sub> x + &theta;<sub>1</sub>x -->
 <!-- <img src="https://render.githubusercontent.com/render/math?math=y = 0.2s_1 %2B 0.2s_2 %2B 0.2s_3 %2B B %2B \epsilon"> -->
 <!-- <img src="https://render.githubusercontent.com/render/math?math=\epsilon ~ N(\mu = 0, \sigma_{\epsilon} = 0.5E[y])"> -->
@@ -276,10 +278,13 @@ The Triadsim algorithm has used this method to simulate LD patterns that are alm
 
   * `correctness_testing_ACB`: A directory containing bash scripts to test code correctness on the ACB subpopulation, as well as the output for those tests. Correctness testing part 2 is optional and requires plink version 1.90Beta.
   * `correctness_testing_GBR`: A directory containing bash scripts to test code correctness on the GBR subpopulation, as well as the output for those tests. Correctness testing part 2 is optional and requires plink version 1.90Beta.
+  * `examples`: A directory containing bash scripts that run the data simulation examples in the README.
   * `hg19`: for each 1000 genomes project population, contains a folder with one gzipped recombination rate dataframe per hg19 reference human autosome.
   * `hg38`: for each 1000 genomes project population, contains a folder with one gzipped recombination rate dataframe per hg38 reference human autosome.
   * `images`: contains figures that are either displayed or linked to in this github README
   * `input_files`: contains examples of regens input that is meant to be provided by the user. The example custom recombination rate information is copied from that of the hg19 mapped ACB population. Also contains input for the Triadsim algorithm. The genetic input labeled as "not_trio" for Triadsim is comprised of ACB population duplicates and is only meant to compare Triadsim's runtime. 
+  * `paper`: A directory containing the paper's md file, bib file, and figure. 
+  * `runtime_testing_files`: A directory containing files that were used to compute runtimes, max memory usage values, and improvement ratio bootstrapped confidence intervals.
   * `unit_testing_files`: A directory containing bash scripts to unit test code correctness on the ACB subpopulation, as well as the output for those tests.
 
 ### Files :file_folder:
@@ -287,11 +292,6 @@ The Triadsim algorithm has used this method to simulate LD patterns that are alm
   * `regens.py`: the main file that runs the regens algorithm
   * `regens_library.py`: functions that the regens algorithm uses repeatedly. 
   * `regens_testers.py`: functions used exclusively for correctness testing and unit testing
-  * `simulate_genotypes_with_additive_effects.sh`: simulates the README example "Example 1: a simple additive model"
-  * `simulate_genotypes_with_custom_recombination_rate_dataframe.sh`: simulates the README example "Simulate genotype data with custom recombination rate dataframes"
-  * `simulate_genotypes_with_epistatic_effects.sh`: simulates the README example "Example 2: inclusion of nonlinear single-SNP effects"
-  * `simulate_genotypes_with_nonlinear_effects.sh`: simulates the README example "Example 3: inclusion of epistatic effects"
-  * `simulate_genotypes_without_effects.sh`: simulates the README example "Simulate genotype data"
 
 ## Contributing
 If you find any bugs or have any suggestions/questions, please feel free to [post an issue](https://github.com/EpistasisLab/regens/issues/new)! 
