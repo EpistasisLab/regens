@@ -88,7 +88,7 @@ Position(bp)	Map(cM)
 16073197	0.04079
 ```
 
-## Simulate genotype data with phenotype associations
+## :apple: Simulate genotype data with phenotype associations :green_apple:
 
 Given at least one set of one or more SNPs, REGENS can simulate a correlation between each set of SNPs and a binary or continuous phenotype.
 Different genotype encodings can be applied:
@@ -250,7 +250,7 @@ homozygous_only	regular	regular
 
 In context to an epistatic interaction, first the _Swap_ function is applied to SNPs specified by `input_files/major_minor_assignments.txt`, then map functions specified by `input_files/SNP_phenotype_map.txt` are applied to their respective SNPs. The transformed genotypes of SNPs in the same row of `input_files/causal_SNP_IDs.txt` are multiplied together and by the corresponding beta coefficient in `input_files/betas.txt`. Each individual's phenotype is then the sum of row products, the bias, and the random noise term.
 
-## REGENS simulates nearly flawless GWAS data
+## REGENS simulates nearly flawless GWAS data :100:
 
 The Triadsim algorithm simulates LD patterns that are almost indistinguishable from those of the input Dataset. REGENS uses Triadsim's method of recombining genomic segments to simulate equally realistic data, and we measured it to be 88.5 times faster (95%CI: [75.1, 105.0]) and require 6.2 times lower peak RAM (95%CI [6.04, 6.33]) than Triadsim on average. The following three figures show that REGENS nearly perfectly replicates the input dataset's LD pattern. 
 
@@ -266,11 +266,11 @@ The Triadsim algorithm simulates LD patterns that are almost indistinguishable f
 
 ![TSNE1 vs TSNE2 for 1000 genome African subpopulations](images/tsne.png)
 
-## Technical details
+## Technical details :robot:
 
 Each genome that REGENS simulates starts out as an empty template of SNP positions without SNP values, which is divided into empty segments that are demarcated by breakpoints. The probability of drawing any genomic position for a given breakpoint is equal to the probability that this position would demarcate a given real recombination event. Once an empty simulated genome is segmented by breakpoints, the row indices of whole genome bed file rows from a real dataset are duplicated so that 1) there is one real individual for each empty segment and 2) every real individual is selected an equal number of times (minus 1 for each remainder sample if the number of segments is not divisible by the number of individuals). Then, for each empty segment, a whole genome is randomly selected without replacement from the set of genomes that correspond to the duplicated indices, and the empty simulated segment is filled with the the homologous segment from the sampled real genome. These steps are repeated for every empty simulated segment so that all of the empty simulated genomes are filled with real SNP values. This quasirandom selection minimizes maf variation between the simulated and real datasets and also maintains normal population level genetic variability by randomizing segment selection. Even though the randomly selected segments are independent from one-another, the simulated dataset will contain the input dataset's LD pattern because each breakpoint location is selected with the same probability that they would demarcate a given real recombination event (i.e. a real biological concatenation of two independent genomic segment).
 
-The Triadsim algorithm has used this method to simulate LD patterns that are almost indistinguishable from those of the input Dataset. REGENS simulates equally realistic data, and it was measured to be 88 times faster and require 8 times lower peak RAM than Triadsim. REGENS is designed to easily simulate GWAS data from any of the 26 populations in the [1000 genomes project](https://www.cog-genomics.org/plink/2.0/resources), and a filtered subset of these subpopulations' genotype data is provided in the github in corresponding plink filesets. In summary, I kept every biallelic SNP such that every subpopulation contains at least two instances of the minor allele. [Exact thinning methods are here](https://github.com/EpistasisLab/REGENS/blob/master/get_1000_genomes_files.sh). REGENS converts output recombination rate maps from [pyrho](https://github.com/popgenmethods/pyrho) (which correspond to the twenty-six 1000 Genome populations on a one to one basis) into probabilities of drawing each simulated breakpoint at a specific genomic location. It is also possible to simulate GWAS data from a custom plink (bed, bim, bam) fileset or a custom recombination rate map (or both files can be custom). Note that recombination rate maps between populations within a superpopulation (i.e. british and italian) have pearson correlation coefficients of roughly 0.9 [(see figure 2B of the pyrho paper)](https://advances.sciencemag.org/content/advances/5/10/eaaw9206.full.pdf), so if a genotype dataset has no recombination rate map for the exact population, then map for a closely relatrf population should suffice. 
+The Triadsim algorithm has used this method to simulate LD patterns that are almost indistinguishable from those of the input Dataset. REGENS simulates equally realistic data, and it was measured to be 88.5 times faster and require 6.2 times lower peak RAM than Triadsim on average. REGENS is designed to easily simulate GWAS data from any of the 26 populations in the [1000 genomes project](https://www.cog-genomics.org/plink/2.0/resources), and a filtered subset of these subpopulations' genotype data is provided in the github in corresponding plink filesets. In summary, I kept every biallelic SNP such that every subpopulation contains at least two instances of the minor allele. [Exact thinning methods are here](https://github.com/EpistasisLab/REGENS/blob/master/get_1000_genomes_files.sh). REGENS converts output recombination rate maps from [pyrho](https://github.com/popgenmethods/pyrho) (which correspond to the twenty-six 1000 Genome populations on a one to one basis) into probabilities of drawing each simulated breakpoint at a specific genomic location. It is also possible to simulate GWAS data from a custom plink (bed, bim, bam) fileset or a custom recombination rate map (or both files can be custom). Note that recombination rate maps between populations within a superpopulation (i.e. british and italian) have pearson correlation coefficients of roughly 0.9 [(see figure 2B of the pyrho paper)](https://advances.sciencemag.org/content/advances/5/10/eaaw9206.full.pdf), so if a genotype dataset has no recombination rate map for the exact population, then map for a closely relatrf population should suffice. 
 
 ## Repository structure
 
@@ -293,7 +293,7 @@ The Triadsim algorithm has used this method to simulate LD patterns that are alm
   * `regens_library.py`: functions that the regens algorithm uses repeatedly. 
   * `regens_testers.py`: functions used exclusively for correctness testing and unit testing
 
-## Contributing
+## Contributing :thumbsup:
 If you find any bugs or have any suggestions/questions, please feel free to [post an issue](https://github.com/EpistasisLab/regens/issues/new)! 
 Please refer to our [contribution guide](CONTRIBUTING.md) for more details.
 Thanks for your support!
