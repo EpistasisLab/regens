@@ -2,7 +2,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 setup(
-    packages = find_packages()
+    packages = find_packages(),
     python_requires = ">=3.7",
     name = 'regens',
     entry_points = {'console_scripts': ['regens = regens:main']},
