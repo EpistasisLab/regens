@@ -3,6 +3,13 @@
 REGENS (REcombinatory Genome ENumeration of Subpopulations) is an open source Python package :package: that simulates whole genomes from real genomic segments. 
 REGENS recombines these segments in a way that simulates completely new individuals while simultaneously preserving the input genomes' linkage disequilibrium (LD) pattern with extremely high fedility. REGENS can also simulate mono-allelic and epistatic single nucleotide variant (SNV) effects on a continuous or binary phenotype without perturbing the simulated LD pattern.
 
+## Input :inbox_tray:
+REGENS requires the following inputs:
+- YOU MUST PROVIDE: real genotype data formatted as a standard (bed, bim, fam) plink _fileset_, ideally containing a minimum of 80 unrelated individuals.
+- WE HAVE PROVIDED: a recombination map for every 1000 genomes population. 
+
+The provided recombination maps were created by the [pyrho algorithm](https://github.com/popgenmethods/pyrho) and modified by us to minimize required disk space. [Recombination maps between related populations are highly correlated](https://github.com/EpistasisLab/regens/blob/address_comments/README.md#technical-details-robot), so you could pair your input dataset with the recombination map of the most genetically similar 1000 genomes population, as is usually done for SNP imputation. If you wish to make your own recombination map, then it must be formatted as described [here](https://github.com/EpistasisLab/regens/blob/address_comments/README.md#simulate-genotype-data-with-custom-recombination-rate-dataframes-abacus).  
+
 ## Installing REGENS :hammer_and_wrench:
 
 REGENS' dependencies can be installed with pip as follows: 
@@ -26,13 +33,6 @@ Finally, on your command line, change working directory to the `regens` director
 ```shell
 cd regens
 ```
-
-## Input :inbox_tray:
-REGENS requires the following inputs:
-- real genotype data formatted as a standard (bed, bim, fam) plink _fileset_, ideally contains a minimum of 80 unrelated individuals.
-- a folder with one gzipped tab seperated dataframe per chromosome. Each dataframe contains genomic positions of intervals' boundaries and the intervals' recombination rates.
-
-We provide the second input for all twenty-six 1000 genomes populations created by the [pyrho algorithm](https://github.com/popgenmethods/pyrho) and modified by us to minimize required disk space. 
 
 ### :star2: IMPORTANT NOTICE (PLEASE READ) :star2:
 
@@ -60,7 +60,7 @@ python regens.py \
 
 ## Simulate genotype data with custom recombination rate dataframes :abacus:
 
-The following command uses custom recombination rate files instead of the ones provided in the `hg19` and `hg38` folders (though it is just a copy of `hg19/ACB`). NOTE: recombination rates between similar populations (i.e. English and Italian) are highly correlated, so customizing your recombination rate files is unlikely to be necessary or helpful for simulating human genotype data. 
+The following command uses custom recombination rate files instead of the ones provided in the `hg19` and `hg38` folders (though the content in `input_files/hg19_ACB_renamed_as_custom` is just a copy of the content in `hg19/ACB`).  
 
 ```shell
 python regens.py \
@@ -71,11 +71,23 @@ python regens.py \
   --recombination_file_path_prefix input_files/hg19_ACB_renamed_as_custom/custom_chr_
 ```
 
-Importantly, `custom_chr_` includes the entire recombination rate file name up to the number of the chromosome, and that every file suffix must be `.txt.gz`. Note that it is also important for the `.txt.gz` files to actually be gzipped (as opposed to a meaningless `txt.gz` extension). 
+Custom recombination rate files are to be named and organized as follows:
+- The recombination map must be a single folder (named `hg19_ACB_renamed_as_custom` in the example above) with one gzipped tab seperated dataframe per chromosome.
+- Every gzipped tab seperated dataframe must be named as `prefix_chr_1.txt.gz`, then `prefix_chr_2.txt.gz`  all the way through `prefix_chr_22.txt.gz`(`prefix` is named `custom_chr` in the example above).
+- the `.txt.gz` files must actually be gzipped (as opposed to a renamed `txt.gz` extension). 
+- Each chromosome's recombination map file must contain two tab separated columns named `Position(bp)` and	`Map(cM)`.
 
-Each recombination rate dataframe must have two tab separated columns named "Position(bp)" and	"Map(cM)". The i<sup>th</sup> row of "Position(bp)" contains the genomic position of the left boundary for the i<sup>th</sup> genomic interval with a distinct recombination rate. The i<sup>th</sup> row of "Position(bp)" is also the genomic position of the right boundary for the (i-1)<sup>th</sup> genomic interval with a distinct recombination rate. As such, the last row of "Position(bp)" is only a right boundary, and the first row is only a left boundary. Genomic positions must increase monotonically from top to bottom. 
+The `Position(bp)` column in each chromosome's recombination map is to be formatted as follows:
+- The i<sup>th</sup> row of "Position(bp)" contains the genomic position of the left boundary for the i<sup>th</sup> genomic interval with a distinct recombination rate. 
+- The i<sup>th</sup> row of "Position(bp)" is also the genomic position of the right boundary for the (i-1)<sup>th</sup> genomic interval with a distinct recombination rate. 
+- As such, the last row of "Position(bp)" is only a right boundary, and the first row is only a left boundary. 
+- Genomic positions must increase monotonically from top to bottom. 
 
-The i<sup>th</sup> value of "Map(cM)" is the cumulative recombination rate from the first position to the i<sup>th</sup> position in CentiMorgans. The first value of `Map(cM)` must be 0 because of this fact. It must be the case that the recombination rate of the interval in between any two rows b and a is equal to the Map(cM) value at row b minus the Map(cM) value at row a. These cumulative Map(cM) values must increase monotonically from top to bottom. 
+The `Map(cM)` column in each chromosome's recombination map is to be formatted as follows:
+- The i<sup>th</sup> value of "Map(cM)" is the cumulative recombination rate from the first position to the i<sup>th</sup> position in CentiMorgans. 
+- In other words, the recombination rate of the interval in between any two rows b and a must equal the Map(cM) value at row b minus the Map(cM) value at row a. 
+- As such, the cumulative Map(cM) values must increase monotonically from top to bottom.
+- The value of `Map(cM)` in the first row must be 0. 
 
 An example of how this must be formatted is below (remember that there must be one per chromosome, and they must all be gzipped):
 

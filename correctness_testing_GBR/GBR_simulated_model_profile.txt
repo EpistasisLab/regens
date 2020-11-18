@@ -1,5 +1,0 @@
-measured R^2 of model fit: 0.893
-measured beta value of feature1: 0.4164321356602493
-measured beta value of feature2: 0.4881141378587638
-measured beta value of feature3: 0.5376786496993718
-measured beta value of intercept: -3.2787848135994597
