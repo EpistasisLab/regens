@@ -3,6 +3,8 @@ import pandas as pd
 import argparse
 import os
 import pdb
+from zipfile import ZipFile
+from urllib import request
 from bed_reader import open_bed
 from bed_reader import to_bed
 from matplotlib import pyplot as plt
@@ -19,6 +21,29 @@ from regens_library import write_bed_file
 from regens_library import simulate_phenotypes
 
 def main():
+
+    if not os.path.isdir("input_files"):
+        print("\nDownloading input_files for examples and unit testing to your working directory. This may take a moment.\n")
+        print("Note: keep the input_files folder in your working directory if you intend to use them\n")
+        dataset_url = "https://ndownloader.figshare.com/files/25515740"
+        downloaded_path = os.path.join(os.getcwd(), "input_files.zip")
+        void =request.urlretrieve(dataset_url, downloaded_path) 
+        ZipFile(downloaded_path).extractall()
+        os.remove(downloaded_path)
+        print("The input_files folder has been downloaded to your working directory\n")
+
+    some_files_present = os.path.isdir("unit_testing_files") and os.path.isdir("runtime_testing")
+    other_files_present = os.path.isdir("examples") and os.path.isdir("correctness_testing_GBR") and os.path.isdir("correctness_testing_ACB")
+    all_files_present = some_files_present and other_files_present
+    if not all_files_present:
+        print("Downloading examples and unit testing files to your working directory.\n")
+        dataset_url = "https://ndownloader.figshare.com/files/25516322"
+        downloaded_path = os.path.join(os.getcwd(), "examples_and_tests_for_REGENS.zip")
+        void = request.urlretrieve(dataset_url, downloaded_path) 
+        ZipFile(downloaded_path).extractall()
+        os.remove(downloaded_path)
+        print("The examples and unit testing files have been downloaded to your working directory\n")
+
     parser = argparse.ArgumentParser()
     parser.add_argument('--in', nargs = "?", type = str, action = "store", dest = "input_plink_filename_prefix", default = "empty", help = 'input plink filename prefix')
     parser.add_argument('--out', nargs = "?", type = str, action = "store", dest = "output_plink_filename_prefix", default = "simulated_whole_genomes", help = 'output plink filename prefix')
@@ -89,16 +114,6 @@ def main():
         print("\nwarning: you have selected " + str(num_breakpoints) + " breakpoints per chromosome, and there is no good reason to choose more than a few breakpoints per chromosome.\n") 
         print("The simulation may become worse if there aren't roughly as many high recombination rate regions as there are breakpoints, and it may require large ammounts of time and memory.\n")
 
-    # checks the number of samples to be simulated
-    simulation_sample_size = args.num_samples_simulated
-    if simulation_sample_size <= 0:
-        print("\nerror: the number of simulated samples cannot be negative or 0.\n")
-        exit()
-    SNP_count = cumulative_SNP_counts[-1]
-    minutes = str((126/60)*(simulation_sample_size/10000)*(SNP_count/531170))
-    max_ram = str((4.1)*(simulation_sample_size/10000)*(SNP_count/531170))
-    print("\nSimulating " + str(simulation_sample_size) + " samples and " + str(SNP_count) + " SNPs will require roughly " + minutes + " minutes and a maximum ram usage of " + max_ram + " GB.\n")
-
     # checks the specified phenotype category
     phenotype = args.phenotype
     if phenotype not in ["continuous", "binary", -9]:
@@ -119,6 +134,21 @@ def main():
     else:
         pop_code = args.population_code
     hg_version = args.human_genome_version
+    if (not (os.path.isdir("hg19") and os.path.isdir("hg38"))) and (hg_version == "hg19" or hg_version == "hg38"):
+        print("Downloading recombination map files contained in hg19 and hg38 to your working directory. This may take a moment.\n")
+        print("Note: When using regens' --human_genome_version flag, keep the hg19 and hg38 folders in your working directory.\n")
+        dataset_url = "https://ndownloader.figshare.com/articles/13210796/versions/1"
+        downloaded_path = os.path.join(os.getcwd(), "recombination_maps.zip")
+        zipped_hg19_path = os.path.join(os.getcwd(), "hg19.zip")
+        zipped_hg38_path = os.path.join(os.getcwd(), "hg38.zip")
+        void =request.urlretrieve(dataset_url, downloaded_path) 
+        ZipFile(downloaded_path).extractall()
+        ZipFile(zipped_hg19_path).extractall()
+        ZipFile(zipped_hg38_path).extractall()
+        os.remove(downloaded_path)
+        os.remove(zipped_hg19_path)
+        os.remove(zipped_hg38_path)
+        print("Folders hg19 and hg38 have been downloaded to your working directory\n")
     rcmb_path_prefix = args.recombination_file_path_prefix
     hg_pop_codes = ["ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI"]
     
@@ -146,6 +176,16 @@ def main():
         print(hg_pop_codes)
         print("\nAlternatively, you can override the human genome version and population code arguments by adding a path to a custom recombination file with the recombination_file_path_prefix argument\n")
         exit()
+
+    # checks the number of samples to be simulated
+    simulation_sample_size = args.num_samples_simulated
+    if simulation_sample_size <= 0:
+        print("\nerror: the number of simulated samples cannot be negative or 0.\n")
+        exit()
+    SNP_count = cumulative_SNP_counts[-1]
+    minutes = str((126/60)*(simulation_sample_size/10000)*(SNP_count/531170))
+    max_ram = str((4.1)*(simulation_sample_size/10000)*(SNP_count/531170))
+    print("\nSimulating " + str(simulation_sample_size) + " samples and " + str(SNP_count) + " SNPs will require roughly " + minutes + " minutes and a maximum ram usage of " + max_ram + " GB.\n")
 
     # This downloads dataframes containing genomic intervals and recombination rates (in CentiMorgans/Megabase). There is one dataframe per chromosome. 
     rcmb_rate_info_paths = [rcmb_rate_info_path_prefix + str(chr) + '.txt.gz' for chr in chromosomes]
