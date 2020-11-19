@@ -298,7 +298,7 @@ The Triadsim algorithm has used this method to simulate LD patterns that are alm
   
 ## Remedies to known permission issues :adhesive_bandage:
 
-Try these steps if you had permissions issues with the final installation step:
+Try these steps if you had permissions issues with the [final installation step](https://github.com/EpistasisLab/regens/blob/final_changes/README.md#instructions-to-installing-regens-hammer_and_wrench):
 
 1. Right click the "Anaconda Prompt" app (left), then click ```run as administrator```. Reinstalling conda in a different directory may fix this issue permenantly.
 2. Your antivirus software might block a file that Anaconda needs (Avast blocked Miniconda's python.exe for us). Try seeing if your antivirus software is blocking anything related to anaconda, and then allow it to stop blocking that file. You could also turn off your antivirus software, though we do not recommend this.  
