@@ -15,10 +15,11 @@ The provided recombination maps were created by the [pyrho algorithm](https://gi
 Follow these instructions to install regens:
 
 1. [Install conda](https://docs.conda.io/en/latest/miniconda.html) if you haven't already installed either Anaconda or Miniconda.
-2. Open your conda terminal. Type "Anaconda" or "Miniconda" into your search bar and open the terminal. It will look like this: ![Real and simulated R value vs. MAF](images/r_maf_ACB.png)
-3. Enter ```conda create --name regens python=3.7``` to create a new environment called regens with python version 3.7.
-3. Enter ```conda activate regens``` to enter your new environment. If that doesn't work, enter ```source activate regens```
-4. Once in your regens environment (repeat step three if you reopen the conda terminal), enter ```pip install regens```
+2. Open your conda terminal. Type "Anaconda" or "Miniconda" into your search bar and open the terminal. It will look like this: ![picture_of_conda_terminal](images/conda_terminal.png)
+3. Click the "Anaconda Prompt" app (left) to open the black terminal (right). The terminal's top must say "Anaconda prompt"
+4. Enter ```conda create --name regens python=3.7``` in the terminal to create a new environment called regens with python version 3.7
+5. Enter ```conda activate regens``` in the terminal to enter your new environment. If that doesn't work, enter ```source activate regens```
+6. Once in your regens environment (repeat step 5 if you close and reopen the conda terminal), enter ```pip install regens```
 
 Your first use of regens will download several files into your working directory, and you may experience permissions issue with this step. If so, try the following remedies:
 
