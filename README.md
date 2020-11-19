@@ -3,7 +3,7 @@
 REGENS (REcombinatory Genome ENumeration of Subpopulations) is an open source Python package :package: that simulates whole genomes from real genomic segments. 
 REGENS recombines these segments in a way that simulates completely new individuals while simultaneously preserving the input genomes' linkage disequilibrium (LD) pattern with extremely high fedility. REGENS can also simulate mono-allelic and epistatic single nucleotide variant (SNV) effects on a continuous or binary phenotype without perturbing the simulated LD pattern.
 
-### :star2: IMPORTANT NOTICE (PLEASE READ) :star2:
+## :star2: IMPORTANT NOTICE (PLEASE READ) :star2:
 
 REGENS's simulated genomes are comprised entirely of concatenated segments from the input dataset's real genomes. If your input genomes are not available for public use, then you may not be allowed to publicly release the simulated dataset. Please consult the institutions that provide you access to your input genotype dataset for more information about this matter.
 
@@ -17,6 +17,7 @@ Follow these instructions to install REGENS:
 4. Enter ```conda create --name regens python=3.7``` in the terminal to create a new environment called regens with python version 3.7
 5. Enter ```conda activate regens``` in the terminal to enter your new environment. If that doesn't work, enter ```source activate regens```
 6. Once in your regens environment (repeat step 5 if you close and reopen the conda terminal), enter ```pip install regens```
+7. Run [this command](https://github.com/EpistasisLab/regens/blob/address_comments/README.md#-imulate-genotype-data-computer) to allow regens to download the remaining files. It will write the simulated data into the `examples` folder that it downloads. 
 
 REGENS will download files into your working directory. If you experience permissions issues with this step, try the following remedies:
 
@@ -77,8 +78,8 @@ Custom recombination rate files are to be named and organized as follows:
 - Each chromosome's recombination map file must contain two tab separated columns named `Position(bp)` and	`Map(cM)`.
 
 The `Position(bp)` column in each chromosome's recombination map is to be formatted as follows:
-- The i<sup>th</sup> row of "Position(bp)" contains the genomic position of the left boundary for the i<sup>th</sup> genomic interval with a distinct recombination rate. 
-- The i<sup>th</sup> row of "Position(bp)" is also the genomic position of the right boundary for the (i-1)<sup>th</sup> genomic interval with a distinct recombination rate. 
+- The i<sup>th</sup> row of "Position(bp)" contains the genomic position of the left boundary for the i<sup>th</sup> genomic interval.
+- The i<sup>th</sup> row of "Position(bp)" is also the genomic position of the right boundary for the (i-1)<sup>th</sup> genomic interval. 
 - As such, the last row of "Position(bp)" is only a right boundary, and the first row is only a left boundary. 
 - Genomic positions must increase monotonically from top to bottom. 
 
