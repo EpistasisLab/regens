@@ -12,27 +12,25 @@ The provided recombination maps were created by the [pyrho algorithm](https://gi
 
 ## Installing REGENS :hammer_and_wrench:
 
-REGENS' dependencies can be installed with pip as follows: 
-```shell
-pip install bed-reader
-pip install numpy
-pip install pandas
-pip install matplotlib
-pip install scipy
-pip install scikit-learn
-```
-After the dependency installation, to acquire the necessary data files for REGENS to run, please `Download ZIP` (under the green Code button on the top right) or clone this repository with
-```shell
-git clone https://github.com/EpistasisLab/regens.git
-```
-or (if your SSH key is set up)
-```shell
-git clone git@github.com:EpistasisLab/regens.git
-```
-Finally, on your command line, change working directory to the `regens` directory:
-```shell
-cd regens
-```
+Follow these instructions to install regens:
+
+1. [Install conda](https://docs.conda.io/en/latest/miniconda.html) if you haven't already installed either Anaconda or Miniconda.
+2. Open your conda terminal. Type "Anaconda" or "Miniconda" into your search bar and open the terminal. It will look like this: ![Real and simulated R value vs. MAF](images/r_maf_ACB.png)
+3. Enter ```conda create --name regens python=3.7``` to create a new environment called regens with python version 3.7.
+3. Enter ```conda activate regens``` to enter your new environment. If that doesn't work, enter ```source activate regens```
+4. Once in your regens environment (repeat step three if you reopen the conda terminal), enter ```pip install regens```
+
+Your first use of regens will download several files into your working directory, and you may experience permissions issue with this step. If so, try the following remedies:
+
+1. Right click your conda terminal prompt, then click ```run as administrator```. If this helps, then it may be important to reinstall conda in a different directory. 
+2. Your antivirus software might block a component of regens (Avast blocked Miniconda's python.exe file in our case). Try seeing if your antivirus software is blocking anything related to anaconda or regens, and then allow it to stop blocking that file. You could also turn off your antivirus software, though we do not recommend this. 
+3. In the worst case, you can download all of the required files with these links:
+
+    1. [input_files](https://ndownloader.figshare.com/files/25515740)
+    2. [correctness_testng_ACB, correctness_testng_GBR, examples, runtime_testing, unit_testing_files](https://ndownloader.figshare.com/files/25516322)
+    3. [hg19 and hg38](https://ndownloader.figshare.com/articles/13210796/versions/1)
+    
+Download the three folders containing the aforementioned 8 folders and unzip all folders (only the folders, not the recombination maps in hg19 and hg38). Then place everything in your working directory and run regens from your working directory. You should be ready to use regens in your working directory if you have completed the installation steps. 
 
 ### :star2: IMPORTANT NOTICE (PLEASE READ) :star2:
 
