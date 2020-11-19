@@ -7,12 +7,10 @@ REGENS recombines these segments in a way that simulates completely new individu
 
 REGENS's simulated genomes are comprised entirely of concatenated segments from the input dataset's real genomes. If your input genomes are not available for public use, then you may not be allowed to publicly release the simulated dataset. Please consult the institutions that provide you access to your input genotype dataset for more information about this matter.
 
-## Installing REGENS :hammer_and_wrench:
-
-Follow these instructions to install REGENS:
+## Instructions to Installing REGENS :hammer_and_wrench:
 
 1. [Install conda](https://docs.conda.io/en/latest/miniconda.html) if you haven't already installed either Anaconda or Miniconda
-2. Open your conda terminal. Type "Anaconda" or "Miniconda" into your search bar and open the terminal. It will look like this: <img src="images/conda_terminal.png" width="800" height="275"/>
+2. Open your conda terminal. Type "Anaconda" or "Miniconda" into your search bar and open the terminal. It will look like this: <img src="images/conda_terminal.png" width="650" height="275"/>
 3. Click the "Anaconda Prompt" app (left) to open the black terminal (right). The terminal's top must say "Anaconda prompt"
 4. Enter ```conda create --name regens python=3.7``` in the terminal to create a new environment called regens with python version 3.7
 5. Enter ```conda activate regens``` in the terminal to enter your new environment. If that doesn't work, enter ```source activate regens```
