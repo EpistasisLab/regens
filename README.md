@@ -17,19 +17,7 @@ Follow these instructions to install REGENS:
 4. Enter ```conda create --name regens python=3.7``` in the terminal to create a new environment called regens with python version 3.7
 5. Enter ```conda activate regens``` in the terminal to enter your new environment. If that doesn't work, enter ```source activate regens```
 6. Once in your regens environment (repeat step 5 if you close and reopen the conda terminal), enter ```pip install regens```
-7. Run [this command](https://github.com/EpistasisLab/regens/blob/final_changes/README.md#simulate-genotype-data-computer) to allow regens to download the remaining files. It will write the simulated data into the `examples` folder that it downloads. 
-
-REGENS will download files into your working directory. If you experience permissions issues with this step, try the following remedies:
-
-1. Right click the "Anaconda Prompt" app (left), then click ```run as administrator```. Reinstalling conda in a different directory may fix this issue permenantly.
-2. Your antivirus software might block a file that Anaconda needs (Avast blocked Miniconda's python.exe for us). Try seeing if your antivirus software is blocking anything related to anaconda, and then allow it to stop blocking that file. You could also turn off your antivirus software, though we do not recommend this.  
-3. In the worst case, you can download all of the required files with these links:
-
-    1. [input_files](https://ndownloader.figshare.com/files/25515740)
-    2. [correctness_testng_ACB, correctness_testng_GBR, examples, runtime_testing, unit_testing_files](https://ndownloader.figshare.com/files/25516322)
-    3. [hg19 and hg38](https://ndownloader.figshare.com/articles/13210796/versions/1)
-    
-Download the three folders containing the aforementioned 8 folders and unzip all folders (only the _folders_, keep the _recombination maps_ in hg19 and hg38 zipped). Then place everything in your working directory and run REGENS from your working directory. You should now be ready to use REGENS in your working directory if you have completed the installation steps. 
+7. Run [this command](https://github.com/EpistasisLab/regens/blob/final_changes/README.md#simulate-genotype-data-computer) to allow regens to download the remaining files. It will write the simulated data into the `examples` folder that it downloads. If you experience permissions issues with this step, [try these remedies]():
 
 ## Input :turkey:
 REGENS requires the following inputs:
@@ -309,6 +297,20 @@ The Triadsim algorithm has used this method to simulate LD patterns that are alm
   * `regens_testers.py`: functions used exclusively for correctness testing and unit testing
   * `setup.py` and `_init_.py`: allows regens to be installed with pip
   * `requirements.txt`: lists REGENS' dependencies
+  
+## Remedies to known permission issues :adhesive_bandage:
+
+Try these steps if you had permissions issues with the final installation step:
+
+1. Right click the "Anaconda Prompt" app (left), then click ```run as administrator```. Reinstalling conda in a different directory may fix this issue permenantly.
+2. Your antivirus software might block a file that Anaconda needs (Avast blocked Miniconda's python.exe for us). Try seeing if your antivirus software is blocking anything related to anaconda, and then allow it to stop blocking that file. You could also turn off your antivirus software, though we do not recommend this.  
+3. In the worst case, you can download all of the required files with these links:
+
+    1. [input_files](https://ndownloader.figshare.com/files/25515740)
+    2. [correctness_testng_ACB, correctness_testng_GBR, examples, runtime_testing, unit_testing_files](https://ndownloader.figshare.com/files/25516322)
+    3. [hg19 and hg38](https://ndownloader.figshare.com/articles/13210796/versions/1)
+    
+Download the three folders containing the aforementioned 8 folders and unzip all folders (only the _folders_, keep the _recombination maps_ in hg19 and hg38 zipped). Then place everything in your working directory and run REGENS from your working directory. You should now be ready to use REGENS in your working directory if you have completed the installation steps. 
 
 ## Contributing :thumbsup:
 If you find any bugs or have any suggestions/questions, please feel free to [post an issue](https://github.com/EpistasisLab/regens/issues/new)! 
