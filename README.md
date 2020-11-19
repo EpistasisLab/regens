@@ -23,15 +23,15 @@ Follow these instructions to install regens:
 
 Your first use of regens will download several files into your working directory, and you may experience permissions issue with this step. If so, try the following remedies:
 
-1. Right click your conda terminal prompt, then click ```run as administrator```. If this helps, then it may be important to reinstall conda in a different directory. 
-2. Your antivirus software might block a component of regens (Avast blocked Miniconda's python.exe file in our case). Try seeing if your antivirus software is blocking anything related to anaconda or regens, and then allow it to stop blocking that file. You could also turn off your antivirus software, though we do not recommend this. 
+1. Right click the "Anaconda Prompt" app (left), then click ```run as administrator```. If this helps, then it may be important to reinstall conda in a different directory. 
+2. Your antivirus software might block a file that regens needs (Avast blocked Miniconda's python.exe for us). Try seeing if your antivirus software is blocking anything related to anaconda or regens, and then allow it to stop blocking that file. You could also turn off your antivirus software, though we do not recommend this.  
 3. In the worst case, you can download all of the required files with these links:
 
     1. [input_files](https://ndownloader.figshare.com/files/25515740)
     2. [correctness_testng_ACB, correctness_testng_GBR, examples, runtime_testing, unit_testing_files](https://ndownloader.figshare.com/files/25516322)
     3. [hg19 and hg38](https://ndownloader.figshare.com/articles/13210796/versions/1)
     
-Download the three folders containing the aforementioned 8 folders and unzip all folders (only the folders, not the recombination maps in hg19 and hg38). Then place everything in your working directory and run regens from your working directory. You should be ready to use regens in your working directory if you have completed the installation steps. 
+Download the three folders containing the aforementioned 8 folders and unzip all folders (only the _folders_, keep the _recombination maps_ in hg19 and hg38 zipped). Then place everything in your working directory and run regens from your working directory. You should now be ready to use regens in your working directory if you have completed the installation steps. 
 
 ### :star2: IMPORTANT NOTICE (PLEASE READ) :star2:
 
