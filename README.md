@@ -15,7 +15,7 @@ REGENS's simulated genomes are comprised entirely of concatenated segments from 
 4. Enter ```conda create --name regens python=3.7``` in the terminal to create a new environment called regens with python version 3.7
 5. Enter ```conda activate regens``` in the terminal to enter your new environment. If that doesn't work, enter ```source activate regens```
 6. Once in your regens environment (repeat step 5 if you close and reopen the conda terminal), enter ```pip install regens```
-7. Run [this command](https://github.com/EpistasisLab/regens/README.md#simulate-genotype-data-computer) to allow regens to download the remaining files. It will write the simulated data into the `examples` folder that it downloads. If you experience permissions issues with this step, [try these remedies](https://github.com/EpistasisLab/regens/blob/README.md#remedies-to-known-permission-issues-adhesive_bandage):
+7. Run [this command](https://github.com/EpistasisLab/regens/blob/main/README.md#simulate-genotype-data-computer) to allow regens to download the remaining files. It will write the simulated data into the `examples` folder that it downloads. If you experience permissions issues with this step, [try these remedies](https://github.com/EpistasisLab/regens/blob/main/README.md#remedies-to-known-permission-issues-adhesive_bandage):
 
 ## Input :turkey:
 REGENS requires the following inputs:
