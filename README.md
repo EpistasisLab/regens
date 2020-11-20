@@ -3,51 +3,39 @@
 REGENS (REcombinatory Genome ENumeration of Subpopulations) is an open source Python package :package: that simulates whole genomes from real genomic segments. 
 REGENS recombines these segments in a way that simulates completely new individuals while simultaneously preserving the input genomes' linkage disequilibrium (LD) pattern with extremely high fedility. REGENS can also simulate mono-allelic and epistatic single nucleotide variant (SNV) effects on a continuous or binary phenotype without perturbing the simulated LD pattern.
 
-## Input :inbox_tray:
+## :star2: IMPORTANT NOTICE (PLEASE READ) :star2:
+
+REGENS's simulated genomes are comprised entirely of concatenated segments from the input dataset's real genomes. If your input genomes are not available for public use, then you may not be allowed to publicly release the simulated dataset. Please consult the institutions that provide you access to your input genotype dataset for more information about this matter.
+
+## Instructions to Installing REGENS :hammer_and_wrench:
+
+1. [Install conda](https://docs.conda.io/en/latest/miniconda.html) if you haven't already installed either Anaconda or Miniconda
+2. Open your conda terminal. Type "Anaconda" or "Miniconda" into your search bar and open the terminal. It will look like this: <img src="images/conda_terminal.png" width="800" height="400"/>
+3. Click the "Anaconda Prompt" app (left) to open the black terminal (right). The terminal's top must say "Anaconda prompt"
+4. Enter ```conda create --name regens python=3.7``` in the terminal to create a new environment called regens with python version 3.7
+5. Enter ```conda activate regens``` in the terminal to enter your new environment. If that doesn't work, enter ```source activate regens```
+6. Once in your regens environment (repeat step 5 if you close and reopen the conda terminal), enter ```pip install regens```
+7. Run [this command](https://github.com/EpistasisLab/regens/blob/final_changes/README.md#simulate-genotype-data-computer) to allow regens to download the remaining files. It will write the simulated data into the `examples` folder that it downloads. If you experience permissions issues with this step, [try these remedies](https://github.com/EpistasisLab/regens/blob/final_changes/README.md#remedies-to-known-permission-issues-adhesive_bandage):
+
+## Input :turkey:
 REGENS requires the following inputs:
 - YOU MUST PROVIDE: real genotype data formatted as a standard (bed, bim, fam) plink _fileset_, ideally containing a minimum of 80 unrelated individuals.
 - WE HAVE PROVIDED: a recombination map for every 1000 genomes population. 
 
 The provided recombination maps were created by the [pyrho algorithm](https://github.com/popgenmethods/pyrho) and modified by us to minimize required disk space. [Recombination maps between related populations are highly correlated](https://github.com/EpistasisLab/regens/blob/address_comments/README.md#technical-details-robot), so you could pair your input dataset with the recombination map of the most genetically similar 1000 genomes population, as is usually done for SNP imputation. If you wish to make your own recombination map, then it must be formatted as described [here](https://github.com/EpistasisLab/regens/blob/address_comments/README.md#simulate-genotype-data-with-custom-recombination-rate-dataframes-abacus).  
 
-## Installing REGENS :hammer_and_wrench:
-
-Follow these instructions to install regens:
-
-1. [Install conda](https://docs.conda.io/en/latest/miniconda.html) if you haven't already installed either Anaconda or Miniconda.
-2. Open your conda terminal. Type "Anaconda" or "Miniconda" into your search bar and open the terminal. It will look like this: ![Real and simulated R value vs. MAF](images/r_maf_ACB.png)
-3. Enter ```conda create --name regens python=3.7``` to create a new environment called regens with python version 3.7.
-3. Enter ```conda activate regens``` to enter your new environment. If that doesn't work, enter ```source activate regens```
-4. Once in your regens environment (repeat step three if you reopen the conda terminal), enter ```pip install regens```
-
-Your first use of regens will download several files into your working directory, and you may experience permissions issue with this step. If so, try the following remedies:
-
-1. Right click your conda terminal prompt, then click ```run as administrator```. If this helps, then it may be important to reinstall conda in a different directory. 
-2. Your antivirus software might block a component of regens (Avast blocked Miniconda's python.exe file in our case). Try seeing if your antivirus software is blocking anything related to anaconda or regens, and then allow it to stop blocking that file. You could also turn off your antivirus software, though we do not recommend this. 
-3. In the worst case, you can download all of the required files with these links:
-
-    1. [input_files](https://ndownloader.figshare.com/files/25515740)
-    2. [correctness_testng_ACB, correctness_testng_GBR, examples, runtime_testing, unit_testing_files](https://ndownloader.figshare.com/files/25516322)
-    3. [hg19 and hg38](https://ndownloader.figshare.com/articles/13210796/versions/1)
-    
-Download the three folders containing the aforementioned 8 folders and unzip all folders (only the folders, not the recombination maps in hg19 and hg38). Then place everything in your working directory and run regens from your working directory. You should be ready to use regens in your working directory if you have completed the installation steps. 
-
-### :star2: IMPORTANT NOTICE (PLEASE READ) :star2:
-
-REGENS's simulated genomes are comprised entirely of concatenated segments from the input dataset's real genomes. If your input genomes are not available for public use, then you may not be allowed to publicly release the simulated dataset. Please consult the institutions that provide you access to your input genotype dataset for more information about this matter.
-
-## Output :outbox_tray:
-Standard output is a standard (bed, bim, fam) plink fileset with the simulated genotype data (and optional phenotype information). 
+## Output :poultry_leg:
+REGENS outputs a standard (bed, bim, fam) plink fileset with the simulated genotype data (and optional phenotype information). 
 If plink is not available to you, please consider [bed-reader](https://pypi.org/project/bed-reader/0.1.1/), which reads (bed, bim, fam) plink filesets into the python environment quickly and efficiently. 
  
-In phenotype simulation, REGENS also outputs a distribution of phenotypes (see [example](https://github.com/EpistasisLab/regens/blob/main/correctness_testing_ACB/ACB_simulated_phenotype_profile.png)) and a file containing the R<sup>2</sup> value of the phenotype/genotype correlation and the *inferred* beta coefficients (see [example](https://github.com/EpistasisLab/regens/blob/main/correctness_testing_ACB/ACB_simulated_model_profile.txt)), which will most likely be close to but not equal to the input beta coefficients.
+In phenotype simulation, REGENS also outputs a file containing the R<sup>2</sup> value of the phenotype/genotype correlation and the *inferred* beta coefficients (see [example](https://github.com/EpistasisLab/regens/blob/main/correctness_testing_ACB/ACB_simulated_model_profile.txt)), which will most likely be close to but not equal to the input beta coefficients.
 
 ## Simulate genotype data :computer:
 
 The following command uses `ACB.bed`, `ACB.bim`, and `ACB.fam` to simulate 10000 individuals without phenotypes. Windows users should replace all `\`  linebreak characters with `^`.
 
 ```shell
-python regens.py \
+python -m regens \
   --in input_files/ACB \
   --out ACB_simulated \
   --simulate_nsamples 10000 \
@@ -61,7 +49,7 @@ python regens.py \
 The following command uses custom recombination rate files instead of the ones provided in the `hg19` and `hg38` folders (though the content in `input_files/hg19_ACB_renamed_as_custom` is just a copy of the content in `hg19/ACB`).  
 
 ```shell
-python regens.py \
+python -m regens \
   --in input_files/ACB \
   --out ACB_simulated \
   --simulate_nsamples 10000 \
@@ -76,8 +64,8 @@ Custom recombination rate files are to be named and organized as follows:
 - Each chromosome's recombination map file must contain two tab separated columns named `Position(bp)` and	`Map(cM)`.
 
 The `Position(bp)` column in each chromosome's recombination map is to be formatted as follows:
-- The i<sup>th</sup> row of "Position(bp)" contains the genomic position of the left boundary for the i<sup>th</sup> genomic interval with a distinct recombination rate. 
-- The i<sup>th</sup> row of "Position(bp)" is also the genomic position of the right boundary for the (i-1)<sup>th</sup> genomic interval with a distinct recombination rate. 
+- The i<sup>th</sup> row of "Position(bp)" contains the genomic position of the left boundary for the i<sup>th</sup> genomic interval.
+- The i<sup>th</sup> row of "Position(bp)" is also the genomic position of the right boundary for the (i-1)<sup>th</sup> genomic interval. 
 - As such, the last row of "Position(bp)" is only a right boundary, and the first row is only a left boundary. 
 - Genomic positions must increase monotonically from top to bottom. 
 
@@ -121,7 +109,7 @@ The table below shows how each combination of one step 1 function (columns) and 
 A full command for REGENS to simulate genomic data with correlated phenotypes would be formatted as follows:
 
 ```shell
-python regens.py \
+python -m regens \
   --in input_files/ACB --out ACB_simulated \
   --simulate_nsamples 10000 --simulate_nbreakpoints 4 \
   --phenotype continuous --mean_phenotype 5.75 \
@@ -161,7 +149,7 @@ rs5836360
 ### Example 2: inclusion of nonlinear single-SNP effects
 
 ```shell
-python regens.py \
+python -m regens \
   --in input_files/ACB --out ACB_simulated \
   --simulate_nbreakpoints 4 --simulate_nsamples 10000 \
   --phenotype continuous --mean_phenotype 5.75 \
@@ -203,7 +191,7 @@ heterozygous_only
 REGENS models epistasis between an arbitrary number of SNPs as the product of transformed genotype values in an individual.
 
 ```shell
-python regens.py \
+python -m regens \
   --in input_files/ACB --out ACB_simulated \
   --simulate_nbreakpoints 4 --simulate_nsamples 10000 \
   --phenotype continuous --mean_phenotype 5.75 \
@@ -284,24 +272,43 @@ The Triadsim algorithm has used this method to simulate LD patterns that are alm
 
 ## Repository structure
 
-### Folders :file_cabinet:
+### Folders for REGENS to download :inbox_tray:
 
   * `correctness_testing_ACB`: A directory containing bash scripts to test code correctness on the ACB subpopulation, as well as the output for those tests. Correctness testing part 2 is optional and requires plink version 1.90Beta.
   * `correctness_testing_GBR`: A directory containing bash scripts to test code correctness on the GBR subpopulation, as well as the output for those tests. Correctness testing part 2 is optional and requires plink version 1.90Beta.
   * `examples`: A directory containing bash scripts that run the data simulation examples in the README.
   * `hg19`: for each 1000 genomes project population, contains a folder with one gzipped recombination rate dataframe per hg19 reference human autosome.
   * `hg38`: for each 1000 genomes project population, contains a folder with one gzipped recombination rate dataframe per hg38 reference human autosome.
-  * `images`: contains figures that are either displayed or linked to in this github README
   * `input_files`: contains examples of regens input that is meant to be provided by the user. The example custom recombination rate information is copied from that of the hg19 mapped ACB population. Also contains input for the Triadsim algorithm. The genetic input labeled as "not_trio" for Triadsim is comprised of ACB population duplicates and is only meant to compare Triadsim's runtime. 
-  * `paper`: A directory containing the paper's md file, bib file, and figure. 
   * `runtime_testing_files`: A directory containing files that were used to compute runtimes, max memory usage values, and improvement ratio bootstrapped confidence intervals.
   * `unit_testing_files`: A directory containing bash scripts to unit test code correctness on the ACB subpopulation, as well as the output for those tests.
+
+### Folders in the repository :file_cabinet:
+
+  * `images`: contains figures that are either displayed or linked to in this github README
+  * `paper`: A directory containing the paper's md file, bib file, and figure. 
 
 ### Files :file_folder:
 
   * `regens.py`: the main file that runs the regens algorithm
   * `regens_library.py`: functions that the regens algorithm uses repeatedly. 
   * `regens_testers.py`: functions used exclusively for correctness testing and unit testing
+  * `setup.py` and `_init_.py`: allows regens to be installed with pip
+  * `requirements.txt`: lists REGENS' dependencies
+  
+## Remedies to known permission issues :adhesive_bandage:
+
+Try these steps if you had permissions issues with the [final installation step](https://github.com/EpistasisLab/regens/blob/final_changes/README.md#instructions-to-installing-regens-hammer_and_wrench):
+
+1. Right click the "Anaconda Prompt" app (left), then click ```run as administrator```. Reinstalling conda in a different directory may fix this issue permenantly.
+2. Your antivirus software might block a file that Anaconda needs (Avast blocked Miniconda's python.exe for us). Try seeing if your antivirus software is blocking anything related to anaconda, and then allow it to stop blocking that file. You could also turn off your antivirus software, though we do not recommend this.  
+3. In the worst case, you can download all of the required files with these links:
+
+    1. [input_files](https://ndownloader.figshare.com/files/25515740)
+    2. [correctness_testng_ACB, correctness_testng_GBR, examples, runtime_testing, unit_testing_files](https://ndownloader.figshare.com/files/25516322)
+    3. [hg19 and hg38](https://ndownloader.figshare.com/articles/13210796/versions/1)
+    
+Download the three folders containing the aforementioned 8 folders and unzip all folders (only the _folders_, keep the _recombination maps_ in hg19 and hg38 zipped). Then place everything in your working directory and run REGENS from your working directory. You should now be ready to use REGENS in your working directory if you have completed the installation steps. 
 
 ## Contributing :thumbsup:
 If you find any bugs or have any suggestions/questions, please feel free to [post an issue](https://github.com/EpistasisLab/regens/issues/new)! 
