@@ -104,7 +104,7 @@ The table below shows how each combination of one step 1 function (columns) and 
 |Heterozygous only (He)|  {0, 2, 0}  | {0, 2, 0} |
 |Homozygous only (Ho)  |  {2, 0, 2}  | {2, 0, 2} |
 
-### Example 1: a simple additive model
+### Example 1: a simple additive model :arrow_lower_right:
 
 A full command for REGENS to simulate genomic data with correlated phenotypes would be formatted as follows:
 
@@ -146,7 +146,7 @@ rs5836360
 0.5
 ```
 
-### Example 2: inclusion of nonlinear single-SNP effects
+### Example 2: inclusion of nonlinear single-SNP effects :arrow_heading_down:
 
 ```shell
 python -m regens \
@@ -186,7 +186,7 @@ recessive
 heterozygous_only
 ```
 
-### Example 3: inclusion of epistatic effects
+### Example 3: inclusion of epistatic effects :twisted_rightwards_arrows:
 
 REGENS models epistasis between an arbitrary number of SNPs as the product of transformed genotype values in an individual.
 
