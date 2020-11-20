@@ -32,7 +32,7 @@ In phenotype simulation, REGENS also outputs a file containing the R<sup>2</sup>
 
 ## Simulate genotype data :computer:
 
-The following command uses `ACB.bed`, `ACB.bim`, and `ACB.fam` to simulate 10000 individuals without phenotypes. Windows users should replace all `\`  linebreak characters with `^`.
+The following command uses `ACB.bed`, `ACB.bim`, and `ACB.fam` to simulate 10000 individuals without phenotypes. This command (or any other) will also complete [installation step 7](https://github.com/EpistasisLab/regens/blob/main/README.md#instructions-to-installing-regens-hammer_and_wrench). Windows users should replace all `\`  linebreak characters with `^`.
 
 ```shell
 python -m regens \
