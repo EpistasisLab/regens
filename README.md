@@ -290,7 +290,8 @@ REGENS converts output recombination rate maps from [pyrho](https://github.com/p
 ### Folders in the repository :file_cabinet:
 
   * `images`: contains figures that are either displayed or linked to in this github README
-  * `paper`: A directory containing the paper's md file, bib file, and figure. 
+  * `paper`: A directory containing the paper's md file, bib file, and figure
+  * `thinning_methods`: All code that was used to select 500000 SNPs from the 1000 genomes project's genotype data
 
 ### Files :file_folder:
 
