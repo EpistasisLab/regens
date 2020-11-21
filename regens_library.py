@@ -557,7 +557,7 @@ def simulate_phenotypes(output_file_names, causal_SNP_IDs_path, cumulative_SNP_c
         intercept = root(fun = logistic_with_unknown_intercept, x0 = np.array([0]), args = (weighted_feature_sums,  mean_phenotype)).x[0]
         disease_probabilities = 1/(1 + np.exp(-1*(weighted_feature_sums + intercept)))
         simulated_phenotypes = (np.random.rand(len(disease_probabilities)) <= disease_probabilities.reshape(-1)).astype(np.int8)
-        model = LogisticRegression(C = 1E100, tol = 1E-100, max_iter = 1000000).fit(features, simulated_phenotypes)
+        model = LogisticRegression(C = 1E100, tol = 1E-100, max_iter = 1000000, solver='lbfgs').fit(features, simulated_phenotypes)
 
     elif phenotype == "continuous":
         def linear_with_unknown_intercept(intercept, weighted_feature_sums, mean_phenotype):
