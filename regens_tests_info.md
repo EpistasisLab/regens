@@ -2,6 +2,8 @@
 
 There is one file named `run_all_tests.sh` in REGENS' repository. If you run REGENS in an anaconda envrionment named `regens` (follow the installation instructions in the README), then running the command `bsub < run_all_tests.sh` will most of the tests that regens downloads. There are four testing folders: 
 
+WARNING: the runtime_testing files are not ready to run. They all contain the line `#BSUB -m lambda[i]`, where i is the node. Change this to your node names and make sure that all nodes that you use have identical processors. 
+
 1. correctness_testing_ACB
 2. correctness_testing_GBR
 3. runtime_testing
@@ -22,7 +24,6 @@ REQUIREMENTS: running `run_all_tests.sh` submits 13 parallel jobs, each of which
 11. runtime_testing/regens8.sh
 12. runtime_testing/regens9.sh
 13. runtime_testing/regens10.sh
-
 
 Note: all tests take a relatively long time to run, and in general, should not be ran if using regens to simulate a large quantity of data. Tests that `run_all_tests.sh` will run are described below. 
 
@@ -55,3 +56,8 @@ Note that, with 4, 5, and 6, the imported genotypes are too large to check for e
 
 ## Efficiency tests for REGENS
 
+The `runtime_testing` folder contains scripts that simply run regens 10 times in the same way. Each job contains the specification `#BSUB -m lambda[i]`, where i is the node. The `run_all_tests.sh`  runs the runtime tests for REGENS automatically, so make sure you either change this or remove the test. All nodes mentioned in these ten scripts use identical processors. 
+
+## Efficiency tests for Triadsim
+
+The `runtime_testing` folder also contains scripts that simply run triadsim 10 times in the same way. You need to install triadsim before attempting to run them. Each replicate will over 6 hours and 50GB of RAM to run. Note that Triadsim runtimes do not follow a symetric distribution of value. While all of Triadsim's runs take much longer than regens' runs, roughly 1 or 2 out of every 10 triadsim runs will take roughly double its normal ammount of time or longer. 
