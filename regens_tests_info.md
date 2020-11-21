@@ -1,10 +1,32 @@
-There are four testing folders:
+## Summary
+
+There is one file named `run_all_tests.sh` in REGENS' repository. If you run REGENS in an anaconda envrionment named `regens` (follow the installation instructions in the README), then running the command `bsub < run_all_tests.sh` will most of the tests that regens downloads. There are four testing folders: 
+
 1. correctness_testing_ACB
 2. correctness_testing_GBR
 3. runtime_testing
 4. unit_testing_files
 
-Note: all tests take a relatively long time to run, and in general, should not be ran if using regens to simulate a large quantity of data. 
+REQUIREMENTS: running `run_all_tests.sh` submits 13 parallel jobs, each of which takes roughly 10GB of RAM (slight overestimate) and 5 minutes to complete (rough estimate). You you may want to run one job at a time, in which case, you should change the number of samples being generated so that you have enough RAM. You should also run the following files consecutively (paths are all relative to your working directory):
+
+1. correctness_testing_ACB/regens_automated_tests_part1_ACB.sh
+2. correctness_testing_GBR/regens_automated_tests_part1_GBR.sh
+3. unit_testing_files/unit_tests.sh
+4. runtime_testing/regens1.sh
+5. runtime_testing/regens2.sh
+6. runtime_testing/regens3.sh
+7. runtime_testing/regens4.sh
+8. runtime_testing/regens5.sh
+9. runtime_testing/regens6.sh
+10. runtime_testing/regens7.sh
+11. runtime_testing/regens8.sh
+12. runtime_testing/regens9.sh
+13. runtime_testing/regens10.sh
+
+
+Note: all tests take a relatively long time to run, and in general, should not be ran if using regens to simulate a large quantity of data. Tests that `run_all_tests.sh` will run are described below. 
+
+## Testing REGENS' correctness
 
 The tests in `correctness_testing_ACB` and `correctness_testing_GBR` ensure that the most important parts of the regens algorithm work correctly for two different samples. Specifically, it tests four different things:
 
@@ -13,7 +35,9 @@ The tests in `correctness_testing_ACB` and `correctness_testing_GBR` ensure that
 3. It checks that every SNP being used as a breakpoint boundary matches back to the genomic interval in which it resides.
 4. It checks that every filled segment of a simulated genome matches back to the correct genomic segment of the correct individual. 
 
-Steps 1 and 2 show that breakpoints are drawn from the correct distribution, step 3 shows that drawn breakpoints are mapped to the correct input dataset SNPs to use as boundaries, and step 4 shows that the genotypes inserted into the resulting empty segments are the correct genotypes. If all of these things are true, then the regens algorithm works correctly. PySnpTools may contain errors, but this is unlikely. 
+Steps 1 and 2 show that breakpoints are drawn from the correct distribution, step 3 shows that drawn breakpoints are mapped to the correct input dataset SNPs to use as boundaries, and step 4 shows that the genotypes inserted into the resulting empty segments are the correct genotypes. If all of these things are true, then the regens algorithm works correctly. PySnpTools may contain errors, but this is unlikely. The output of part one is shown in one png file per chromosome. The output of parts 2, 3, and 4 are print statements that get written into the .out file from running `unit_tests.sh`
+
+## Unit tests for REGENS
 
 The tests in `unit_testing_files` confirm, for the first chromosome in the 1000 genomes ACB population only, that actual output is exactly equal to the expected output at a specific random seed. As such, testing regens with the unit tests is much faster than using the correctness tests, and regens' functionality really doesn't change across populations or chromosomes. These unit tests confirm that the following intermediate output objects equal what they should:
 
@@ -27,6 +51,7 @@ The tests in `unit_testing_files` confirm, for the first chromosome in the 1000 
 8. correct SNP_positions_to_rcmb_intervals function first output
 9. correct SNP_positions_to_rcmb_intervals function second output
 
-Note that, with 4, 5, and 6, the imported genotypes are too large to check for equality directly, so we compare the minor allele counts summed over a single dimension for all three dimensions. It is exceedingly improbable that all of these counts will match perfectly if the numpy arrays themselves do not. 
+Note that, with 4, 5, and 6, the imported genotypes are too large to check for equality directly, so we compare the minor allele counts summed over a single dimension for all three dimensions. It is exceedingly improbable that all of these counts will match perfectly if the numpy arrays themselves do not. All outputs are print statements, so they're written into the .out file from running `unit_tests.sh`
 
+## Efficiency tests for REGENS
 
