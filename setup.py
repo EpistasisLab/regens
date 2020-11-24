@@ -14,7 +14,7 @@ setup(
     long_description = regens_summary,
     long_description_content_type = 'text/markdown',
     packages = find_packages(),
-    version='0.1.0',
+    version='0.2.0b',
     python_requires = "==3.7",
     name = 'regens',
     entry_points = {'console_scripts': ['regens = regens:main']},
