@@ -6,4 +6,3 @@
 bsub < correctness_testing_ACB/regens_automated_tests_part1_ACB.sh
 bsub < correctness_testing_GBR/regens_automated_tests_part1_GBR.sh
 bsub < unit_testing_files/unit_tests.sh
-bsub < runtime_testing/regens_main.sh
