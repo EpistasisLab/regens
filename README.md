@@ -46,7 +46,7 @@ python -m regens \
 
 ## Simulate genotype data with custom recombination rate dataframes :abacus:
 
-The following command uses custom recombination rate files instead of the ones provided in the `hg19` and `hg38` folders (though the content in `input_files/hg19_ACB_renamed_as_custom` is just a copy of the content in `hg19/ACB`).  
+The following command uses custom recombination rate files as [input for regens](https://github.com/EpistasisLab/regens/blob/main/README.md#input-turkey) instead of the ones provided in the `hg19` and `hg38` folders (though the content in `input_files/hg19_ACB_renamed_as_custom` is just a copy of the content in `hg19/ACB`).  
 
 ```shell
 python -m regens \
