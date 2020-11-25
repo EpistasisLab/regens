@@ -32,7 +32,7 @@ concatenating real individuals' genomic segments in a way that preserves
 their linkage disequilibrium (LD), which is defined as statistical
 associations between alleles at different loci [@slatkin2008linkage].
 Recombining segments in a way that preserves LD simulates autosomes that
-closely resemble those of the realistic input population [@source:1]
+closely resemble those of the real input population [@source:1]
 because real autosomal genotypes can be accurately modeled as genomic
 segments from a finite pool of heritable association structures (LD
 haplotypes) [@source:3]. REGENS can also simulate mono-allelic and
@@ -86,9 +86,9 @@ Drawing simulated breakpoints from the right hand side of (\autoref{eq:e_frac})
 is like drawing differently colored marbles from a jar. Just as the
 color composition inferred from drawing (with replacement) a marble from
 a jar many times approaches the true distribution of colors, the
-distribution of recombination events learned from drawing breakpoints
-for many simulated individuals approaches the input population's
-distribution of recombination events. Genomic segments that only contain
+sample of simulated segment recombinations learned from drawing breakpoints
+for many simulated individuals approaches the input population's empirical
+distribution of real recombination events. Genomic segments that only contain
 alleles in high LD are rarely separated by breakpoints, which retains
 the original LD pattern (\autoref{fig:tsne}).
 
@@ -115,13 +115,18 @@ processor). REGENS also recombines individuals instead of trios to
 simulate GWAS data with small publicly available genomic datasets, such
 as those in the 1000 Genomes project. This fact allows REGENS to
 accurately simulate the full genetic diversity of the world's population
-(representative figures are at
-<https://github.com/EpistasisLab/REGENS>). Finally, REGENS can simulate
+(representative figures are in the supplementary analysis). Finally, REGENS can simulate
 continuous and binary phenotypes that depend on any linear combination
 of products of f(SNV) values, where f transforms the standard SNP values
 of $\{0,1,2\}$ to represent nonlinear monoallelic effects (such as
 dominance). Example implementations of these features are in REGENS'
 GitHub repository.
+
+# Supplementary analysis
+
+Figures that demonstrate the similarity between real and simulated populations
+for all twenty-six 1000 genomes populations, as well as the methods that were
+used to create those figures, are here <https://github.com/EpistasisLab/regens-analysis>
 
 # Inspiration and dependencies
 
