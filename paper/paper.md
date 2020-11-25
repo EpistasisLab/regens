@@ -94,7 +94,7 @@ the original LD pattern (\autoref{fig:tsne}).
 
 ![Comparison of population whole genomes in 2 dimensional TSNE space.\label{fig:tsne}](tsne.png)
 
-## Differentiating attributes
+# Differentiating attributes
 
 Many packages were built to simulate genetic data with different goals
 in mind. Genetic Architecture Model Emulator for Testing and Evaluating
