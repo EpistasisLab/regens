@@ -1,3 +1,5 @@
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.02743/status.svg)](https://doi.org/10.21105/joss.02743)
+
 ## About REGENS :dna:
 
 REGENS (REcombinatory Genome ENumeration of Subpopulations) is an open source Python package :package: that simulates whole genomes from real genomic segments. 
