@@ -96,7 +96,7 @@ the original LD pattern (\autoref{fig:tsne}).
 
 # Differentiating attributes
 
-Many packages were built to simulate genetic data with different goals
+Many packages have been built to simulate genetic data with different goals
 in mind. Genetic Architecture Model Emulator for Testing and Evaluating
 Software (GAMETEs) simulates simple and epistatic SNV/phenotype
 associations quickly but ignores LD patterns [@source:6]. Genome
