@@ -6,22 +6,22 @@ tags:
   - bioinformatics
   - python
 authors:
-  - name: John T. Gregg
-    orcid: 0000-0002-2619-3440
-    affiliation: 1 
-  - name: Trang T. Le
-    orcid: 0000-0003-3737-6565
-    affiliation: 1 
-  - name: Jason H. Moore
-    orcid: 0000-0002-5015-1099
-    affiliation: 2 
-affiliations:
-  - name: Department of Biostatistics, Epidemiology and Informatics, University of Pennsylvania, Philadelphia, PA 19087, USA 
-    index: 1 
-  - name: Institute for Biomedical Informatics, University of Pennsylvania, Philadelphia, PA 19087, USA 
-    index: 2 
-date: 01 October 2020
-bibliography: paper.bib
+  - name: John T. Gregg  
+    orcid: 0000-0002-2619-3440  
+    affiliation: 1  
+  - name: Trang T. Le  
+    orcid: 0000-0003-3737-6565  
+    affiliation: 1  
+  - name: Jason H. Moore  
+    orcid: 0000-0002-5015-1099  
+    affiliation: 2  
+affiliations:  
+  - name: Department of Biostatistics, Epidemiology and Informatics, University of Pennsylvania, Philadelphia, PA 19087, USA  
+    index: 1  
+  - name: Institute for Biomedical Informatics, University of Pennsylvania, Philadelphia, PA 19087, USA  
+    index: 2  
+date: 01 October 2020  
+bibliography: paper.bib  
 ---
 
 # Summary
