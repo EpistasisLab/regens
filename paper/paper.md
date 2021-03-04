@@ -16,10 +16,10 @@ authors:
     orcid: 0000-0002-5015-1099
     affiliation: 2
 affiliations:
- - name: Department of Biostatistics, Epidemiology and Informatics, University of Pennsylvania, Philadelphia, PA 19087, USA
-   index: 1
- - name: Institute for Biomedical Informatics, University of Pennsylvania, Philadelphia, PA 19087, USA
-   index: 2
+  - name: Department of Biostatistics, Epidemiology and Informatics, University of Pennsylvania, Philadelphia, PA 19087, USA
+    index: 1
+  - name: Institute for Biomedical Informatics, University of Pennsylvania, Philadelphia, PA 19087, USA
+    index: 2
 date: 01 October 2020
 bibliography: paper.bib
 ---
