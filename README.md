@@ -296,6 +296,7 @@ But our full analysis is in [another repository](https://github.com/EpistasisLab
   * `regens_testers.py`: functions used exclusively for correctness testing and unit testing
   * `setup.py` and `_init_.py`: allows regens to be installed with pip
   * `requirements.txt`: lists REGENS' dependencies
+  * `regens_tests_info.md`: Installing REGENS also downloads four folders that test REGENS' functionality. The [regens_tests_info.md](https://github.com/EpistasisLab/regens/blob/main/regens_tests_info.md) file explains what they test.   
   
 ## Remedies to known permission issues :adhesive_bandage:
 
